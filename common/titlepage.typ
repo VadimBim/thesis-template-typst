@@ -30,24 +30,15 @@
   
   // --- Title Page ---
   v(1cm)
-  align(center, image("../figures/logo.png", width: 26%))
+  align(center, image("../figures/antet_L.JPG", width: 120%))
 
-  v(5mm)
-  align(center, text(font: sans-font, 2em, weight: 700, "Technical University of Munich"))
-
-  v(5mm)
-  align(center, text(font: sans-font, 1.5em, weight: 100, "School of Computation, Information and Technology \n -- Informatics --"))
-  
   v(15mm)
 
-  align(center, text(font: sans-font, 1.3em, weight: 100, degree + "’s Thesis in " + program))
+  align(center, text(font: sans-font, 1.5em, weight: 100, degree + "’s Thesis in " + program))
   v(8mm)
   
 
   align(center, text(font: sans-font, 2em, weight: 700, title))
-  
-
-  align(center, text(font: sans-font, 2em, weight: 500, titleGerman))
 
   pad(
     top: 3em,
@@ -59,8 +50,6 @@
       strong("Author: "), author,
       strong("Supervisor: "), supervisor,
       strong("Advisors: "), advisors.join(", "),
-      strong("Start Date: "), startDate,
-      strong("Submission Date: "), submissionDate,
     )
   )
 
