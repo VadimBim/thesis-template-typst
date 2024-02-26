@@ -33,7 +33,7 @@
   grid(
       columns: 2,
       gutter: 1fr,
-      "Munich, " + submissionDate, author
+      "București, " + submissionDate, author
   )
 
   pagebreak()
