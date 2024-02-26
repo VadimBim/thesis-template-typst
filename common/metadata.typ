@@ -1,10 +1,10 @@
 // Enter your thesis data here:
-#let titleEnglish = "(Title English)"
+#let titleEnglish = "Master Thesis"
 #let titleGerman = "(Title German)"
-#let degree = "Bachelor"
-#let program = "Information Systems"
-#let supervisor = "Prof. Dr. Stephan Krusche"
-#let advisors = ("Jolanda Krümelmonster, M.Sc.",)
-#let author = "(Author)"
+#let degree = "Master"
+#let program = "Theoretical and Computaional Physics"
+#let supervisor = "Prof. Dr. Andrei Berceanu"
+#let advisors = ("Madalina Boca",)
+#let author = "Munteanu Vadim"
 #let startDate = "(Start Date)"
 #let submissionDate = "(Handover Date)"
