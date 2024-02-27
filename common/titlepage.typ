@@ -29,7 +29,7 @@
   
   // --- Title Page ---
   v(1cm)
-  align(center, image("../figures/antet_L.JPG", width: 120%))
+  align(center, image("../figures/antet_L.JPG", width: 110%))
 
   v(15mm)
 
