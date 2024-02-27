@@ -1,6 +1,5 @@
 #let titlepage(
   title: "",
-  titleGerman: "",
   degree: "",
   program: "",
   supervisor: "",
@@ -35,19 +34,33 @@
   v(15mm)
 
   align(center, text(font: sans-font, 1.5em, weight: 100, degree + "’s Thesis in " + program))
+
   v(8mm)
   
 
   align(center, text(font: sans-font, 2em, weight: 700, title))
 
+  v(10em)
+
   pad(
     top: 3em,
     right: 15%,
-    left: 15%,
+    left: 5%,
     grid(
       columns: 2,
       gutter: 1em,
       strong("Author: "), author,
+    )
+  )
+
+  set align(right)
+
+  pad(
+    top: 5em,
+    right: 1em,
+    grid(
+      columns: 2,
+      gutter: 1em,
       strong("Supervisor: "), supervisor,
       strong("Advisors: "), advisors.join(", "),
     )
