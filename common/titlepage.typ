@@ -29,18 +29,21 @@
   
   // --- Title Page ---
   v(1cm)
-  align(center, image("../figures/antet_L.JPG", width: 110%))
+  align(center, image("../figures/antet_L.JPG", width: 100%))
+align(center, image("../figures/eli_ifin_logo.jpeg", width: 85%))
 
-  v(15mm)
+v(10mm)
 
   align(center, text(font: sans-font, 1.5em, weight: 100, degree + "’s Thesis in " + program))
 
-  v(8mm)
+  v(3mm)
   
+  line(length: 100%)
+  smallcaps()[#align(center, text(font: sans-font, 1.5em, weight: 700, title))]
+  line(length: 100%)
 
-  align(center, text(font: sans-font, 2em, weight: 700, title))
 
-  v(10em)
+  v(2em)
 
   pad(
     top: 3em,
