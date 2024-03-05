@@ -27,8 +27,32 @@
   )
   
   show math.equation: set text(weight: 400)
+  set math.equation(numbering: eqCounter => {
+    locate(eqLoc => {
+      // numbering of the equation: change this to fit your style
+      let eqNumbering = numbering("1", eqCounter)
+      // numbering of the heading
+      let chapterCounter = counter(heading).at(eqLoc)
+      let chapterNumbering = numbering(
+        // use custom function to join array into string
+        (..nums) => nums
+          .pos()
+          .map(str)
+          .join("."),
+        ..chapterCounter
+      )
+    
+      // change this to fit your style
+      [(#chapterNumbering.#eqNumbering)]
+    })
+  })
 
   // --- Headings ---
+  show heading: h => {
+    h
+    // reset equation counter for each chapter
+    counter(math.equation).update(0)
+  }
   show heading: set block(below: 0.85em, above: 1.75em)
   show heading: set text(font: body-font)
   set heading(numbering: "1.1")
