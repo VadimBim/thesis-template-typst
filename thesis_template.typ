@@ -54,6 +54,7 @@
 
   // --- Figures ---
   show figure: set text(size: 0.85em)
+  set figure(supplement: [Fig.])
   
   // --- Table of Contents ---
   outline(
