@@ -5,6 +5,9 @@
 #import "thesis_typ/abstract_en.typ": *
 #import "common/metadata.typ": *
 
+//Packages
+#import "@preview/lovelace:0.2.0": *
+
 #titlepage(
   title: titleEnglish,
   degree: degree,
@@ -55,6 +58,23 @@ $ bold(x)_n = "argmax" alpha_(n-1) (bold(x)) $
 
 These functions are "cheaper" to optimize relative to the objective, so that traditional optimization techniques are employed. There are a lot of acqusition functions based on different assumptions. For example, a widely used acqusition function is Expected Improvemnt $E I (bold(x))$, as the name suggests this function returns the expected value to observe a better objective than observed so far. 
 
-Basic Bayesian Optimization is a sequential algorithm, here the pseudo-code is shown:
+Basic Bayesian Optimization is a sequential algorithm, here the pseudo-code is shown (adapted from @Frazier2018-dq):
+
+#show: setup-lovelace
+
+#algorithm(
+  caption: [Basic pseudo-code for Bayesian optimization],
+  pseudocode(
+    [Place a Gaussian process prior on $f$],
+    [Observe $f$ at $n_0$ initial points. Set $n=n_0$],
+    [*while* $n lt.eq N$ *do*], ind,
+      [Update the posterior probability distribution on $f$ using data],
+      [$bold(x)_n$ maximizer of $alpha(bold(x))$, where $alpha$ is computed over current posterior],
+      [Observe $y_n = f(x_n)$],
+      [Increment $n$], ded,
+    [*end while*],
+    [*return* solution]
+  )
+)
 
 In the next subchapters we disucss the components of Bayesian Optimization in more details.
