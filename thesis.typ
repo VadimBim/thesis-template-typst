@@ -79,4 +79,6 @@ Basic Bayesian Optimization is a sequential algorithm, here the pseudo-code is s
   )
 )
 
+First $n$ points are usually generated using Sobol sequences @Sobol1967-nw to evenly sample from input space. Here $N$ is the number of available evaluations. 
+
 In the next subchapters we disucss the components of Bayesian Optimization in more details.
