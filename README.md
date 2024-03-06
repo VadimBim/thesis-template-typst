@@ -1,42 +1,12 @@
-# thesis-template-typst
-This repository provides a comprehensive Typst template for writing your Bachelor's or Master's thesis at the CIT School of TUM (Technical University of Munich). It includes two types of documents: a proposal template and a thesis template, both specifically designed for students in the field of Informatics. For more information about writing a thesis at the CIT School, please visit the [official CIT website](https://www.cit.tum.de/en/cit/studies/students/thesis-completing-your-studies/informatics/).
+# Master Thesis 
 
-**Note:** This is only a template. You have to adapt the template to your thesis and discuss the structure of your thesis with your supervisor!
-
---- 
-## Guidelines 
-
-__Please thorougly read our guidelines and hints on [confluence](https://confluence.ase.in.tum.de/display/EduResStud/How+to+thesis)!__ (TUM Login Required) 
-
----
-## Installation
-
-For detailed installation instructions, please refer to the [official installation guide](https://github.com/typst/typst). Here, we provide basic steps for installing Typst's CLI:
-
-- You can get sources and pre-built binaries from the [releases page](https://github.com/typst/typst/releases).
-- Use package managers like `brew` or `pacman` to install Typst. Be aware that the versions in the package managers might lag behind the latest release.
-- If you have a [Rust](https://rustup.rs/) toolchain installed, you can also install the latest development version.
-
-Nix and Docker users, please refer to the official installation guide for detailed instructions.
-
-## Usage
-### Set thesis metadata 
-Fill in your thesis details in the `common/metadata.typ` file: 
-* Degree (Bachelor or Master)
-* Your study program
-* English and German title
-* Advisor and supervisor
-* Your name (without e-mail address or matriculation number)
-* The start and submission date
+My master thesis written in [Typst](https://github.com/typst/typst). I used the [thesis template of Technical University of Munich](https://github.com/ls1intum/thesis-template-typst) as a starting point.
 
 ### Build PDFs locally 
 Once you have installed Typst, you can use it like this:
 ```sh
 # Creates `thesis.pdf` in working directory.
 typst compile thesis.typ
-
-# Creates `proposal.pdf` in working directory.
-typst compile proposal.typ
 
 # Creates PDF file at the desired path.
 typst compile thesis.typ path/to/output.pdf
