@@ -1,6 +1,5 @@
 #let project(
   title: "",
-  titleGerman: "",
   degree: "",
   program: "",
   supervisor: "",
