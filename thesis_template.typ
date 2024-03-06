@@ -81,6 +81,8 @@
   set figure(supplement: [Fig.])
   
   // --- Table of Contents ---
+  counter(page).update(1)
+
   outline(
     title: {
       text(font: body-font, 1.5em, weight: 700, "Contents")
