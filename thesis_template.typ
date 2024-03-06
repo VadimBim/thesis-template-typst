@@ -81,7 +81,7 @@
   set figure(supplement: [Fig.])
   
   // --- Table of Contents ---
-  counter(page).update(1)
+
 
   outline(
     title: {
@@ -91,7 +91,9 @@
     indent: 2em
   )
   
-  
+  show outline: set page(numbering: none)
+  counter(page).update(1)
+
   v(2.4fr)
   pagebreak()
 
