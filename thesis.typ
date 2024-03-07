@@ -100,7 +100,7 @@ $ bold(f) &tilde cal(N) (bold(mu), bold(K)) = (2 pi)^(-n slash 2) |bold(K)|^(-1 
 
 , where $bold(mu)$ is the mean vector and $bold(K)$ is the $n times n$ covariance matrix given by the kernel $K_(i j) = k(bold(x)_i , bold(x)_j)$. Kernels have the property that points closer in input space are more strongly correlated: $ norm(bold(x) - bold(x)') < norm(bold(x) - bold(x)'') arrow.r.double k(bold(x), bold(x)') > k(bold(x), bold(x)'') $
 
-If we want to make a new observation $f(bold(x)_(n+1)) colon.eq f_(n+1)$, by defintion of GP, it will come from the same probability distribution as $bold(f)$. Thus $P(f_(n+1) | bold(f))$ is obtained from marginalization (@marginalization) of the underlying joint distribution $P([f_1, ... , f_n, f_(n+1)]^T)$, which is also a multivariate normal distribution. In conlusion. it can be shown @Rasmussen2005-ou that: // TODO put the derivation in the appendix.
+If we want to make a new observation $f(bold(x)_(n+1)) colon.eq f_(n+1)$, by defintion of GP, it will come from the same probability distribution as $bold(f)$. Thus $P(f_(n+1) | bold(f))$ is obtained from marginalization (@marginalization) #footnote[All figures in @chapter-gp were generated using  http://www.infinitecuriosity.org/vizgp/.] of the underlying joint distribution $P([f_1, ... , f_n, f_(n+1)]^T)$, which is also a multivariate normal distribution. In conlusion. it can be shown @Rasmussen2005-ou that: // TODO put the derivation in the appendix.
 
 $ &P(f_(n+1) | bold(f)) tilde cal(N) (mu_(n+1), sigma_(n+1)^(space 2)), "where" \
   &mu_(n+1) = k(x_(n+1), bold(x)) bold(K)^(-1) (bold(f) - bold(mu)) + mu(x_(n+1)) \
@@ -109,7 +109,7 @@ $ &P(f_(n+1) | bold(f)) tilde cal(N) (mu_(n+1), sigma_(n+1)^(space 2)), "where" 
 
 #figure(
   image("figures/marginalization.png", width: 85%),
-  caption: [The marginal distribution (#text(orange)[orange]) $P(f(2) | 3 "observations")$.#footnote[All figures in @chapter-gp were generated using  http://www.infinitecuriosity.org/vizgp/.]],
+  caption: [The marginal distribution (#text(orange)[orange]) $P(f(2) | 3 "observations")$.],
 ) <marginalization>
 
 In @marginalization we have an unkown 1D function, where we made 3 evaluations. Based on available data, we infered the probability distribution of $f(2)$.
