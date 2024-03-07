@@ -100,11 +100,23 @@ $ bold(f) &tilde cal(N) (bold(mu), bold(K)) = (2 pi)^(-n slash 2) |bold(K)|^(-1 
 
 , where $bold(mu)$ is the mean vector and $bold(K)$ is the $n times n$ covariance matrix given by the kernel $K_(i j) = k(bold(x)_i , bold(x)_j)$. Kernels have the property that points closer in input space are more strongly correlated: $ norm(bold(x) - bold(x)') < norm(bold(x) - bold(x)'') arrow.r.double k(bold(x), bold(x)') > k(bold(x), bold(x)'') $
 
-If we want to make a new observation $f(bold(x)_(n+1)) colon.eq f_(n+1)$, by defintion of GP, it will come from the same probability distribution as $bold(f)$. Thus $P(f_(n+1) | bold(f))$ is obtained from marginalization of the underlying joint distribution $P([f_1, ... , f_n, f_(n+1)]^T)$, which is also a multivariate normal distribution. In conlusion. it can be shown @Rasmussen2005-ou that: // TODO put the derivation in the appendix.
+If we want to make a new observation $f(bold(x)_(n+1)) colon.eq f_(n+1)$, by defintion of GP, it will come from the same probability distribution as $bold(f)$. Thus $P(f_(n+1) | bold(f))$ is obtained from marginalization (@marginalization) of the underlying joint distribution $P([f_1, ... , f_n, f_(n+1)]^T)$, which is also a multivariate normal distribution. In conlusion. it can be shown @Rasmussen2005-ou that: // TODO put the derivation in the appendix.
 
 $ &P(f_(n+1) | bold(f)) tilde cal(N) (mu_(n+1), sigma_(n+1)^(space 2)), "where" \
   &mu_(n+1) = k(x_(n+1), bold(x)) bold(K)^(-1) (bold(f) - bold(mu)) + mu(x_(n+1)) \
   &sigma_(n+1)^(space 2) = k(x_(n+1), x_(n+1)) - k(x_(n+1), bold(x)) bold(K)^(-1) k(bold(x), x_(n+1)) \
   &k(x_(n+1), bold(x)) colon.eq [k(x_(n+1), x_1), ..., k(x_(n+1), x_n)] = k(bold(x), x_(n+1))^T $
 
-The covariance matrix should be symmetric and positive, which limits the number of possible functions that $k$ can take.
+#figure(
+  image("figures/marginalization.png", width: 85%),
+  caption: [The marginal distribution (#text(orange)[orange]) $P(f(2) | 3 "observations")$.#footnote[All figures in @chapter-gp were generated using  http://www.infinitecuriosity.org/vizgp/.]],
+) <marginalization>
+
+In @marginalization we have an unkown 1D function, where we made 3 evaluations. Based on available data, we infered the probability distribution of $f(2)$.
+
+The covariance matrix should be symmetric and positive, which limits the number of possible functions that $k$ can take. If we want to model smooth functions, the usual choice for the kernel is the Squared Exponential kernel (SE):
+
+$ k(bold(x), bold(x')) &= a exp(- norm(bold(x) - bold(x'))^2), \ 
+  norm(bold(x) - bold(x'))^2 &= sum_(i=1)^d (x_i - x'_i) / (l_i^2) $ <SE_kernel>
+
+$bold(theta) colon.eq [a, l_1, ..., l_d]$ are known as the #emph("hyperparameters") of the kernel, and they are responsible of the form of the sampled function. It is interesting to note that we can interpret these hyperparamters. For example, if we take into consideration case $d=1$, we have only 2 hyperparameters $a$ and $l_1$. In this case, $a$ will influence the amplitude of the sampled functions, and $l_1$ the lengthscale (how fast our functions vary).
