@@ -40,7 +40,7 @@
 
 #emph("Bayesian Optimization") (BO) is a class of machine-learning-based algorithms that are designed to optimize expensive, black-box functions $f: A arrow.r RR$ (from this point forward, we will refer to these functions as #emph("objective functions")). Usually, these algorithms are efficient when the objective has the follwing properties @Frazier2018-dq:
 
-- The input set is a hypter-rectangle $A = {bold(x) in RR^d | a_i lt.eq x_i lt.eq b_i}$ where $d$ is not large (typicaly, $d lt.eq 20$).
+- The input set is a hypter-rectangle $A = {bold(x) in RR^d | a_i lt.eq x_i lt.eq b_i}$ where $d$ is not large (typically, $d lt.eq 20$).
 - The objective function is continuous.
 - $f$ is "expensive to evaluate". This is especially true in the cases where objective is a result of a computationally demanding simulation, where each run can take hours.
 - $f$ is a "black box" function, which means that we lack any knowledge about the structure of the function (linearity, concavity, periodicity, etc.). If we knew some of the properties, we could use more efficient algorithms that leverege this information.
@@ -65,10 +65,10 @@ Basic Bayesian Optimization is a sequential algorithm, here the pseudo-code is s
 #show: setup-lovelace
 
 #algorithm(
-  caption: [Basic pseudo-code for Bayesian optimization],
+  caption: [Basic pseudo-code for Bayesian Optimization],
   pseudocode(
     [Place a Gaussian process prior on $f$],
-    [Observe $f$ at $n$ initial points. $"Data" equiv cal(D) = {(bold(x)_1, y_1), ..., (bold(x)_n, y_n)}$],
+    [Observe $f$ at $n$ initial points. $"Data" colon.eq cal(D) = {(bold(x)_1, y_1), ..., (bold(x)_n, y_n)}$],
     [*while* $n lt.eq N$ *do*], ind,
       [Update the posterior probability distribution on $f$ using $cal(D)$],
       [$bold(x)_(n + 1) = "argmax" alpha_(n)(bold(x))$],
@@ -94,4 +94,17 @@ The formal defintion is as follow @Rasmussen2005-ou:
   fill: rgb("#E6F9FF"),
 )[#emph("A Gaussian process is a collection of random variables, any finite number of which have a joint Gaussian distribution")]
 
-More specifically, if $f$ is sampled from a GP, then a finite function values $$
+More specifically, if $f$ is sampled from a GP, then a finite number function values $bold(f) colon.eq [f(bold(x)_1), f(bold(x)_2), ..., f(bold(x)_n)]^T$ follows a multivariate normal distribution:
+
+$ bold(f) &tilde cal(N) (bold(mu), bold(K)) = (2 pi)^(-n slash 2) |bold(K)|^(-1 slash 2) exp ( - 1/2 (bold(f) - bold(mu))^T bold(K) (bold(f) - bold(mu))) $
+
+, where $bold(mu)$ is the mean vector and $bold(K)$ is the $n times n$ covariance matrix given by the kernel $K_(i j) = k(bold(x)_i , bold(x)_j)$. Kernels have the property that points closer in input space are more strongly correlated: $ norm(bold(x) - bold(x)') < norm(bold(x) - bold(x)'') arrow.r.double k(bold(x), bold(x)') > k(bold(x), bold(x)'') $
+
+If we want to make a new observation $f(bold(x)_(n+1)) colon.eq f_(n+1)$, by defintion of GP, it will come from the same probability distribution as $bold(f)$. Thus $P(f_(n+1) | bold(f))$ is obtained from marginalization of the underlying joint distribution $P([f_1, ... , f_n, f_(n+1)]^T)$, which is also a multivariate normal distribution. In conlusion. it can be shown @Rasmussen2005-ou that: // TODO put the derivation in the appendix.
+
+$ &P(f_(n+1) | bold(f)) tilde cal(N) (mu_(n+1), sigma_(n+1)^(space 2)), "where" \
+  &mu_(n+1) = k(x_(n+1), bold(x)) bold(K)^(-1) (bold(f) - bold(mu)) + mu(x_(n+1)) \
+  &sigma_(n+1)^(space 2) = k(x_(n+1), x_(n+1)) - k(x_(n+1), bold(x)) bold(K)^(-1) k(bold(x), x_(n+1)) \
+  &k(x_(n+1), bold(x)) colon.eq [k(x_(n+1), x_1), ..., k(x_(n+1), x_n)] = k(bold(x), x_(n+1))^T $
+
+The covariance matrix should be symmetric and positive, which limits the number of possible functions that $k$ can take.
