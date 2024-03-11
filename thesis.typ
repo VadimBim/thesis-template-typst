@@ -132,5 +132,5 @@ table(
   image("figures/samples_1,4_0,2.png", width: 100%),
   ),
   kind: image,
-  caption: [4 sampled functions from GPs with a SE kernel (bottom) and associated slices through the kernel $k(x_i, dot.c)$ (top) as a function of the second argument. On the left side $[a, l_1] = [1, 2]$ and on the right $[a, l_1^2] = [1.4, 0.08]$. ┈ are means, #box(rect(fill: rgb("#CADEDE"), height: 8pt, width: 8pt, radius: 1pt), baseline: 5%) represents $+- sigma$ and $+- 2 sigma$ confidence bands]
+  caption: [4 sampled functions from GPs with a SE kernel (bottom) and associated slices through the kernel $k(x_i, dot.c)$ (top) as a function of the second argument. On the left side $[a, l_1] = [1, 2]$ and on the right $[a, l_1^2] = [1.4, 0.08]$. ┈ are means, #box(rect(fill: rgb("#CADEDE"), height: 8pt, width: 8pt, radius: 1pt), baseline: 5%) represents $plus.minus sigma$ and $plus.minus 2 sigma$ confidence bands]
 ) <samples_se>
