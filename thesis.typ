@@ -117,6 +117,20 @@ In @marginalization we have an unkown 1D function, where we made 3 evaluations. 
 The covariance matrix should be symmetric and positive, which limits the number of possible functions that $k$ can take. If we want to model smooth functions, the usual choice for the kernel is the Squared Exponential kernel (SE):
 
 $ k(bold(x), bold(x')) &= a exp(- norm(bold(x) - bold(x'))^2), \ 
-  norm(bold(x) - bold(x'))^2 &= sum_(i=1)^d (x_i - x'_i) / (l_i^2) $ <SE_kernel>
+  norm(bold(x) - bold(x'))^2 &colon.eq sum_(i=1)^d (x_i - x'_i) / (l_i^2) $ <SE_kernel>
 
-$bold(theta) colon.eq [a, l_1, ..., l_d]$ are known as the #emph("hyperparameters") of the kernel, and they are responsible of the form of the sampled function. It is interesting to note that we can interpret these hyperparamters. For example, if we take into consideration case $d=1$, we have only 2 hyperparameters $a$ and $l_1$. In this case, $a$ will influence the amplitude of the sampled functions, and $l_1$ the lengthscale (how fast our functions vary).
+$bold(theta) colon.eq [a, l_1, ..., l_d]$ are known as the #emph("hyperparameters") of the kernel, and they are responsible of the form of the sampled function. It is interesting to note that we can interpret these hyperparamters (see @samples_se). For example, if we take into consideration case $d=1$, we have only 2 hyperparameters $a$ and $l_1$. In this case, $a$ will influence the amplitude of the sampled functions, and $l_1$ the lengthscale (how fast our functions vary). 
+
+#figure(
+table(
+  stroke: none,
+  columns: 2,
+  gutter: 1,
+  align: horizon,
+  inset: (x:5pt, y:20pt),
+  image("figures/samples_1_1.png", width: 110%),
+  image("figures/samples_1,4_0,2.png", width: 100%),
+  ),
+  kind: image,
+  caption: [4 sampled functions from GPs with a SE kernel (bottom) and associated slices through the kernel $k(x_i, dot.c)$ (top) as a function of the second argument. On the left side $[a, l_1] = [1, 2]$ and on the right $[a, l_1^2] = [1.4, 0.08]$. ┈ are means, #box(rect(fill: rgb("#CADEDE"), height: 8pt, width: 8pt, radius: 1pt), baseline: 5%) represents $+- sigma$ and $+- 2 sigma$ confidence bands]
+) <samples_se>
