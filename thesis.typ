@@ -96,7 +96,7 @@ The formal defintion is as follow @Rasmussen2005-ou:
 
 More specifically, if $f$ is sampled from a GP, then a finite number function values $bold(f) := [f(bold(x)_1), f(bold(x)_2), ..., f(bold(x)_n)]^T$ follows a multivariate normal distribution:
 
-$ bold(f) &tilde cal(N) (bold(mu), bold(K)) = (2 pi)^(-n slash 2) |bold(K)|^(-1 slash 2) exp ( - 1/2 (bold(f) - bold(mu))^T bold(K) (bold(f) - bold(mu))) $
+$ bold(f) &tilde cal(N) (bold(mu), bold(K)) = (2 pi)^(-n slash 2) |bold(K)|^(-1 slash 2) exp ( - 1/2 (bold(f) - bold(mu))^T bold(K)^(-1) (bold(f) - bold(mu))) $
 
 , where $bold(mu)$ is the mean vector and $bold(K)$ is the $n times n$ covariance matrix given by the kernel $K_(i j) = k(bold(x)_i , bold(x)_j)$. Kernels have the property that points closer in input space are more strongly correlated: $ norm(bold(x) - bold(x)') < norm(bold(x) - bold(x)'') arrow.r.double k(bold(x), bold(x)') > k(bold(x), bold(x)'') $
 
@@ -119,7 +119,7 @@ The covariance matrix should be symmetric and positive, which limits the number 
 $ k(bold(x), bold(x')) &= a exp(- norm(bold(x) - bold(x'))^2), \ 
   norm(bold(x) - bold(x'))^2 &:= sum_(i=1)^d (x_i - x'_i) / (l_i^2) $ <SE_kernel>
 
-$bold(theta) := [a, l_1, ..., l_d]$ are known as the #emph("hyperparameters") of the kernel, and they are responsible of the form of the sampled function. It is interesting to note that we can interpret these hyperparamters (see @samples_se). For example, if we take into consideration case $d=1$, we have only 2 hyperparameters $a$ and $l_1$. In this case, $a$ will influence the amplitude of the sampled functions, and $l_1$ the lengthscale (how fast our functions vary). 
+$bold(theta) := [a, l_1, ..., l_d]$ are known as the #emph("hyperparameters") of the kernel, and they are responsible of the form of the sampled function. It is interesting to note that these hyperparameters are interpretable (see @samples_se). For example, if we take into consideration case $d=1$, we have only 2 hyperparameters $a$ and $l_1$. In this case, $a$ will influence the amplitude of the sampled functions, and $l_1$ the lengthscale (how fast our functions vary). 
 
 #figure(
 table(
@@ -139,7 +139,7 @@ As we mentioned before, kernels are responsible for the structure of the modeled
 
 #figure(
   image("figures/se_times_linear.png", width: 80%),
-  caption: [Locally periodic 1D samples drawn from a GP with a  SE $times$ Per kernel. Where Per $:= a exp (-2 (sin^2(pi |x - x'| slash p ))/l^2)$]
+  caption: [Locally periodic 1D samples drawn from a GP with a  SE $times$ Per kernel. Where Per is a periodic kernel $:= a exp (-2 (sin^2(pi |x - x'| slash p ))/l^2)$]
 )
 
 For the mean function, the most common choice is a #emph("const.") value. It is possible to construct a a mean that captures a specific trend of the function:
@@ -148,4 +148,20 @@ $ mu(bold(x)) = italic("const.") + sum_(i=1)^p beta_i psi_i (bold(x)), $
 
 where $psi_i (bold(x))$ are known parametric functions, usually low-order polynomials. However, in the case of BO, we don't have paticular knowledge about the objective.
 
-The modeled functions are very sensitive to the chosen hyperparameters, and the natural question is: How do we choose these hyperparameters such that sampled functions describe the best observed data?  
+The modeled functions are very sensitive to the chosen hyperparameters, and the natural question is: How do we choose these hyperparameters such that sampled functions describe the best observed data? We will mention only Bayesian model selection, as the rest is out of scope of the current study (interested reader can consult Chapter 5 of @Rasmussen2005-ou for details). By Bayes rule, observed function values and hyperparameters are related as follow #footnote[Here we assumed that model is fixed by specifying form of the kernel and mean function, otherwise we should have written: $P(bold(theta), cal(M) | bold(f))$.]:
+
+$ P(bold(theta) | bold(f)) = (P(bold(f) | bold(theta)) P(bold(theta))) / P(bold(f)) $
+
+$P(bold(theta) | bold(f))$ is known as the #emph("posterior"), $P(bold(f) | bold(theta))$ is the #emph("likelihood") and $P(bold(f))$ is a normalization #emph("const.") named #emph("marginal likelihood") (a.k.a. evidence). We want to maximize probability to see observed values given hyperparameters :
+
+$ hat(bold(theta)) = arg max P(bold(theta) | bold(f)) = arg max P(bold(f) | bold(theta)) P(bold(theta)), $ <MAP>
+
+where we used the fact that $P(bold(f))$ doesn't depend on $bold(theta)$. In @MAP we are estimating hyperparameters by #emph("Maximum a posteriori") (MAP) estimate. An approximation can be obtained by assuming that $P(bold(theta))$ has a constant density over $bold(theta)$, such #emph("Maximum likelihood estimation") (MLE) (@MLE) is obtained. It can seen that MAP is more computationally intensive, however it is a good choice when MLE gives unreasonable hyperparameters.
+
+$ hat(bold(theta)) = arg max P(bold(f) | bold(theta)) $ <MLE>
+
+Since GP assumes that function values are generated from a multivariate normal distribution, and taking the natural log we have:
+
+$ ln P(bold(f) | bold(theta)) = -n/2 ln 2 pi - 1/2 ln |bold(K) | - 1/2 (bold(f) - bold(mu))^T bold(K)^(-1) (bold(f) - bold(mu)) $
+
+Because $bold(theta)$ is nested inside the correlation matrix, deriving an analytical formula is not feasible. Therefore, we need to emply a numerical optimization techinques.
