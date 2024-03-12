@@ -68,7 +68,7 @@ Basic Bayesian Optimization is a sequential algorithm, here the pseudo-code is s
   caption: [Basic pseudo-code for Bayesian Optimization],
   pseudocode(
     [Place a Gaussian process prior on $f$],
-    [Observe $f$ at $n$ initial points. $"Data" colon.eq cal(D) = {(bold(x)_1, y_1), ..., (bold(x)_n, y_n)}$],
+    [Observe $f$ at $n$ initial points. $"Data" := cal(D) = {(bold(x)_1, y_1), ..., (bold(x)_n, y_n)}$],
     [*while* $n lt.eq N$ *do*], ind,
       [Update the posterior probability distribution on $f$ using $cal(D)$],
       [$bold(x)_(n + 1) = "argmax" alpha_(n)(bold(x))$],
@@ -94,18 +94,18 @@ The formal defintion is as follow @Rasmussen2005-ou:
   fill: rgb("#E6F9FF"),
 )[#emph("A Gaussian process is a collection of random variables, any finite number of which have a joint Gaussian distribution")]
 
-More specifically, if $f$ is sampled from a GP, then a finite number function values $bold(f) colon.eq [f(bold(x)_1), f(bold(x)_2), ..., f(bold(x)_n)]^T$ follows a multivariate normal distribution:
+More specifically, if $f$ is sampled from a GP, then a finite number function values $bold(f) := [f(bold(x)_1), f(bold(x)_2), ..., f(bold(x)_n)]^T$ follows a multivariate normal distribution:
 
 $ bold(f) &tilde cal(N) (bold(mu), bold(K)) = (2 pi)^(-n slash 2) |bold(K)|^(-1 slash 2) exp ( - 1/2 (bold(f) - bold(mu))^T bold(K) (bold(f) - bold(mu))) $
 
 , where $bold(mu)$ is the mean vector and $bold(K)$ is the $n times n$ covariance matrix given by the kernel $K_(i j) = k(bold(x)_i , bold(x)_j)$. Kernels have the property that points closer in input space are more strongly correlated: $ norm(bold(x) - bold(x)') < norm(bold(x) - bold(x)'') arrow.r.double k(bold(x), bold(x)') > k(bold(x), bold(x)'') $
 
-If we want to make a new observation $f(bold(x)_(n+1)) colon.eq f_(n+1)$, by defintion of GP, it will come from the same probability distribution as $bold(f)$. Thus $P(f_(n+1) | bold(f))$ is obtained from marginalization (@marginalization) #footnote[All figures in @chapter-gp were generated using  http://www.infinitecuriosity.org/vizgp/.] of the underlying joint distribution $P([f_1, ... , f_n, f_(n+1)]^T)$, which is also a multivariate normal distribution. In conlusion. it can be shown @Rasmussen2005-ou that: // TODO put the derivation in the appendix.
+If we want to make a new observation $f(bold(x)_(n+1)) := f_(n+1)$, by defintion of GP, it will come from the same probability distribution as $bold(f)$. Thus $P(f_(n+1) | bold(f))$ is obtained from marginalization (@marginalization) #footnote[All figures in @chapter-gp were generated using  http://www.infinitecuriosity.org/vizgp/.] of the underlying joint distribution $P([f_1, ... , f_n, f_(n+1)]^T)$, which is also a multivariate normal distribution. In conlusion. it can be shown @Rasmussen2005-ou that: // TODO put the derivation in the appendix.
 
 $ &P(f_(n+1) | bold(f)) tilde cal(N) (mu_(n+1), sigma_(n+1)^(space 2)), "where" \
   &mu_(n+1) = k(x_(n+1), bold(x)) bold(K)^(-1) (bold(f) - bold(mu)) + mu(x_(n+1)) \
   &sigma_(n+1)^(space 2) = k(x_(n+1), x_(n+1)) - k(x_(n+1), bold(x)) bold(K)^(-1) k(bold(x), x_(n+1)) \
-  &k(x_(n+1), bold(x)) colon.eq [k(x_(n+1), x_1), ..., k(x_(n+1), x_n)] = k(bold(x), x_(n+1))^T $
+  &k(x_(n+1), bold(x)) := [k(x_(n+1), x_1), ..., k(x_(n+1), x_n)] = k(bold(x), x_(n+1))^T $
 
 #figure(
   image("figures/marginalization.png", width: 85%),
@@ -117,9 +117,9 @@ In @marginalization we have an unkown 1D function, where we made 3 evaluations. 
 The covariance matrix should be symmetric and positive, which limits the number of possible functions that $k$ can take. If we want to model smooth functions, the usual choice for the kernel is the Squared Exponential kernel (SE):
 
 $ k(bold(x), bold(x')) &= a exp(- norm(bold(x) - bold(x'))^2), \ 
-  norm(bold(x) - bold(x'))^2 &colon.eq sum_(i=1)^d (x_i - x'_i) / (l_i^2) $ <SE_kernel>
+  norm(bold(x) - bold(x'))^2 &:= sum_(i=1)^d (x_i - x'_i) / (l_i^2) $ <SE_kernel>
 
-$bold(theta) colon.eq [a, l_1, ..., l_d]$ are known as the #emph("hyperparameters") of the kernel, and they are responsible of the form of the sampled function. It is interesting to note that we can interpret these hyperparamters (see @samples_se). For example, if we take into consideration case $d=1$, we have only 2 hyperparameters $a$ and $l_1$. In this case, $a$ will influence the amplitude of the sampled functions, and $l_1$ the lengthscale (how fast our functions vary). 
+$bold(theta) := [a, l_1, ..., l_d]$ are known as the #emph("hyperparameters") of the kernel, and they are responsible of the form of the sampled function. It is interesting to note that we can interpret these hyperparamters (see @samples_se). For example, if we take into consideration case $d=1$, we have only 2 hyperparameters $a$ and $l_1$. In this case, $a$ will influence the amplitude of the sampled functions, and $l_1$ the lengthscale (how fast our functions vary). 
 
 #figure(
 table(
@@ -128,9 +128,24 @@ table(
   gutter: 1,
   align: horizon,
   inset: (x:5pt, y:20pt),
-  image("figures/samples_1_1.png", width: 110%),
+  image("figures/samples_1_1.png", width: 105%),
   image("figures/samples_1,4_0,2.png", width: 100%),
   ),
   kind: image,
   caption: [4 sampled functions from GPs with a SE kernel (bottom) and associated slices through the kernel $k(x_i, dot.c)$ (top) as a function of the second argument. On the left side $[a, l_1] = [1, 2]$ and on the right $[a, l_1^2] = [1.4, 0.08]$. ┈ are means, #box(rect(fill: rgb("#CADEDE"), height: 8pt, width: 8pt, radius: 1pt), baseline: 5%) represents $plus.minus sigma$ and $plus.minus 2 sigma$ confidence bands]
 ) <samples_se>
+
+As we mentioned before, kernels are responsible for the structure of the modeled functions. Morevoer, we can combine different kernels via addition and multiplication to obtain functions with specific characteristics (see Chapter 2 of @Duvenaud2014).
+
+#figure(
+  image("figures/se_times_linear.png", width: 80%),
+  caption: [Locally periodic 1D samples drawn from a GP with a  SE $times$ Per kernel. Where Per $:= a exp (-2 (sin^2(pi |x - x'| slash p ))/l^2)$]
+)
+
+For the mean function, the most common choice is a #emph("const.") value. It is possible to construct a a mean that captures a specific trend of the function:
+
+$ mu(bold(x)) = italic("const.") + sum_(i=1)^p beta_i psi_i (bold(x)), $
+
+where $psi_i (bold(x))$ are known parametric functions, usually low-order polynomials. However, in the case of BO, we don't have paticular knowledge about the objective.
+
+The modeled functions are very sensitive to the chosen hyperparameters, and the natural question is: How do we choose these hyperparameters such that sampled functions describe the best observed data?  
