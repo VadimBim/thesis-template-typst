@@ -105,7 +105,7 @@
 
   // Appendix.
   pagebreak()
-  heading(numbering: none)[Appendix A: Supplementary Material]
+  heading(numbering: "A.1", 1, 1)[Appendix]
   include("thesis_typ/appendix.typ")
 
   pagebreak()
