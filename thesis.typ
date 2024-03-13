@@ -142,7 +142,7 @@ As we mentioned before, kernels are responsible for the structure of the modeled
   caption: [Locally periodic 1D samples drawn from a GP with a  SE $times$ Per kernel. Where Per is a periodic kernel $:= a exp (-2 (sin^2(pi |x - x'| slash p ))/l^2)$]
 )
 
-For the mean function, the most common choice is a #emph("const.") value. It is possible to construct a a mean that captures a specific trend of the function:
+For the mean function, the most common choice is a #emph("const.") value. It is possible to construct a mean that captures a specific trend of the function:
 
 $ mu(bold(x)) = italic("const.") + sum_(i=1)^p beta_i psi_i (bold(x)), $
 
@@ -152,16 +152,24 @@ The modeled functions are very sensitive to the chosen hyperparameters, and the 
 
 $ P(bold(theta) | bold(f)) = (P(bold(f) | bold(theta)) P(bold(theta))) / P(bold(f)) $
 
-$P(bold(theta) | bold(f))$ is known as the #emph("posterior"), $P(bold(f) | bold(theta))$ is the #emph("likelihood") and $P(bold(f))$ is a normalization #emph("const.") named #emph("marginal likelihood") (a.k.a. evidence). We want to maximize probability to see observed values given hyperparameters :
+$P(bold(theta) | bold(f))$ is known as the #emph("posterior"), $P(bold(f) | bold(theta))$ is the #emph("likelihood") and $P(bold(f))$ is a normalization #emph("const.") named #emph("marginal likelihood") (a.k.a. evidence):
+
+$ P(bold(f)) = integral P(bold(f) | bold(theta)) P(bold(theta)) d bold(theta) $
+
+ Most of the times, this integral is not analytically tractable and analytical approximation or Monte carlo methods are used. As mentioned before, we want to maximize probability to see observed values given a set of hyperparameters :
 
 $ hat(bold(theta)) = arg max P(bold(theta) | bold(f)) = arg max P(bold(f) | bold(theta)) P(bold(theta)), $ <MAP>
 
-where we used the fact that $P(bold(f))$ doesn't depend on $bold(theta)$. In @MAP we are estimating hyperparameters by #emph("Maximum a posteriori") (MAP) estimate. An approximation can be obtained by assuming that $P(bold(theta))$ has a constant density over $bold(theta)$, such #emph("Maximum likelihood estimation") (MLE) (@MLE) is obtained. It can seen that MAP is more computationally intensive, however it is a good choice when MLE gives unreasonable hyperparameters.
+where we used the fact that $P(bold(f))$ doesn't depend on $bold(theta)$. In @MAP we are estimating hyperparameters by #emph("Maximum a posteriori") (MAP) estimate. An approximation can be obtained by assuming that $P(bold(theta))$ has a constant density over $bold(theta)$, such #emph("Maximum likelihood estimation") (MLE) (@MLE) is obtained. One can see that MAP is more computationally intensive, however it is a good choice when MLE gives unreasonable hyperparameters.
 
 $ hat(bold(theta)) = arg max P(bold(f) | bold(theta)) $ <MLE>
 
 Since GP assumes that function values are generated from a multivariate normal distribution, and taking the natural log we have:
 
-$ ln P(bold(f) | bold(theta)) = -n/2 ln 2 pi - 1/2 ln |bold(K) | - 1/2 (bold(f) - bold(mu))^T bold(K)^(-1) (bold(f) - bold(mu)) $
+$ ln P(bold(f) | bold(theta)) = -n/2 ln 2 pi - 1/2 ln |bold(K)| - 1/2 (bold(f) - bold(mu))^T bold(K)^(-1) (bold(f) - bold(mu)) $ <logP>
 
-Because $bold(theta)$ is nested inside the correlation matrix, deriving an analytical formula is not feasible. Therefore, we need to emply a numerical optimization techinques.
+An important detail is that if our observations are noisy $bold(y) := bold(f) + bold(epsilon)$, we can model it by adding a diagonal matrix to the covariance matrix. In the case in which we assume that all obervations have the same variance (#emph("homoscedastic") noise), we simply add $sigma^2 I$ to $bold(K)$. When noise is different for each observation (#emph("heterorscedastic") noise), associated variances are added to the diagonal. Moreover, we can add correlations beetween noises to off-diagonal elements if known.
+
+// TODO: derivation eq: 5.9 din @Rasmussen2005
+
+Because $bold(theta)$ in @logP is nested inside the correlation matrix, deriving an analytical formula is not feasible. Therefore, we need to emply numerical optimization techinques to maximize $ln P(bold(f) | bold(theta))$.
