@@ -105,7 +105,7 @@ If we want to make a new observation $f(bold(x)_(n+1)) := f_(n+1)$, by defintion
 $ &P(f_(n+1) | bold(f)) tilde cal(N) (mu_(n+1), sigma_(n+1)^(space 2)), "where" \
   &mu_(n+1) = k(x_(n+1), bold(x)) bold(K)^(-1) (bold(f) - bold(mu)) + mu(x_(n+1)) \
   &sigma_(n+1)^(space 2) = k(x_(n+1), x_(n+1)) - k(x_(n+1), bold(x)) bold(K)^(-1) k(bold(x), x_(n+1)) \
-  &k(x_(n+1), bold(x)) := [k(x_(n+1), x_1), ..., k(x_(n+1), x_n)] = k(bold(x), x_(n+1))^T $
+  &k(x_(n+1), bold(x)) := [k(x_(n+1), x_1), ..., k(x_(n+1), x_n)] = k(bold(x), x_(n+1))^T $ <posterior-dist>
 
 #figure(
   image("figures/marginalization.png", width: 85%),
@@ -173,3 +173,16 @@ An important detail is that if our observations are noisy $bold(y) := bold(f) + 
 // TODO: derivation eq: 5.9 din @Rasmussen2005
 
 Because $bold(theta)$ in @logP is nested inside the correlation matrix, deriving an analytical formula is not feasible. Therefore, we need to emply numerical optimization techinques to maximize $ln P(bold(f) | bold(theta))$.
+
+== Acqusition functions <chapter-af>
+
+In this chapter we will discuss in detail the most commonly used acqusition function, namely Expected Improvemnt. We will limit our analysis to 1D case, as for higher dimensional cases Monte Carlo methods are used. Also, we will mention other functions used for #emph("standard") BO problems (check chapter 5 of @Frazier2018-dq for an introduction in Exotic BO).
+
+Suppose that we performed a number of evaluations and $f(x^*)$ is the best value observed so far. Now we have one additional evaluation to perform, and we can perform it anywhere. We define improvemnt as $I (x) := max(f(x) - f(x^*), 0)$. While we would like to choose $x$ so that that this improvement is large, $f(x)$ is unkown until after the evaluation. What we can do, however, is to take the expected value of this improvement and choose $x$ to maximize it. We define the expected improvement:
+
+$ "EI" (x) := E [I (x)], $ <EI>
+
+where $"E"[dot.c]$ indicates the expectation taken under the posterior distribution @posterior-dist. @EI can be written in closed form using integration by parts (see @A_EI):
+
+$ "EI" (x) &= (mu(x) - f(x^*)) (1 - Phi(z_0)) + sigma phi(z_0), \
+  z_0 &= (f(x^*) - mu(x))/sigma(x) $
