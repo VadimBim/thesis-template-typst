@@ -19,7 +19,7 @@ $ "EI"(x) = (mu(x) - f(x^*))(1 - Phi(z_0)) + sigma(x) phi(z_0) $ <EI_A>
 
 We can see that EI is high when $mu(x) >> f(x^*)$, or when the uncertainty $sigma(x)$ is big. Another observation is that if we evaluate EI near an observed point ($sigma(x) tilde.eq 0$), then $"EI" tilde.eq 0 $ because $phi "and" (1 - Phi)$ at $+oo$ tends to zero.
 
-If we want to contral the exploration/explotation trade-off, we can inject a parameter in @EI_A:
+If we want to contral the exploration/exploitation trade-off, we can inject a parameter in @EI_A:
 
 $ "EI" (x, xi) = (mu(x) - f(x^*) - xi )(1 - Phi(z'_0)) + sigma(x) phi(z'_0), $
 
