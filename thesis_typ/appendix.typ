@@ -2,7 +2,7 @@
 #set heading(numbering: "A.1")
 #set math.equation(numbering: "1")
 
-== Expected Improvemnt  <A_EI>
+== 1D Expected Improvemnt  <A_EI>
 
 $ "EI" (x) = "E" [I(x)] = integral_(-oo)^(+oo) I(x) cal(N) (mu(x), sigma^2(x)) d f(x) $
 
