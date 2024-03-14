@@ -176,13 +176,13 @@ Because $bold(theta)$ in @logP is nested inside the correlation matrix, deriving
 
 == Acqusition functions <chapter-af>
 
-In this chapter we will discuss in detail the most commonly used acqusition function, namely Expected Improvemnt. We will limit our analysis to 1D case, as for higher dimensional cases Monte Carlo methods are used. Also, we will mention other functions used for #emph("standard") BO problems (check chapter 5 of @Frazier2018-dq for an introduction in Exotic BO).
+In this chapter we will discuss in detail the most commonly used acqusition function, namely Expected Improvemnt. We will limit our analysis to 1D case and also will mention other functions used for #emph("standard") BO problems (check chapter 5 of @Frazier2018-dq for an introduction in Exotic BO).
 
-Suppose that we performed a number of evaluations and $f(x^*)$ is the best value observed so far. Now we have one additional evaluation to perform, and we can perform it anywhere. We define improvemnt as $I (x) := max(f(x) - f(x^*), 0)$. While we would like to choose $x$ so that that this improvement is large, $f(x)$ is unkown until after the evaluation. What we can do, however, is to take the expected value of this improvement and choose $x$ to maximize it. We define the expected improvement:
+Suppose that we performed a number of evaluations and $f(x^*)$ is the best value observed so far. Now we have one additional evaluation to perform, and we can perform it anywhere. We define improvemnt as $I (x) := max(f(x) - f(x^*), 0)$. While we would like to choose $x$ such that this improvement is large, $f(x)$ is unkown until after the evaluation. What we can do, however, is to take the expected value of this improvement and choose $x$ to maximize it. We define the expected improvement:
 
-$ "EI" (x) := E [I (x)], $ <EI>
+$ "EI" (x) := E [I (x)], $ <EI_definition>
 
-where $"E"[dot.c]$ indicates the expectation taken under the posterior distribution @posterior-dist. @EI can be written in closed form using integration by parts (see @A_EI):
+where $"E"[dot.c]$ indicates the expectation taken under the posterior distribution . Expected improvement can be written in closed form (see @A_EI):
 
 $ "EI" (x) &= (mu(x) - f(x^*)) (1 - Phi(z_0)) + sigma phi(z_0), \
-  z_0 &= (f(x^*) - mu(x))/sigma(x) $
+  z_0 &= (f(x^*) - mu(x))/sigma(x) $ 
