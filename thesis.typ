@@ -199,4 +199,21 @@ The difference beetween PI and EI is that PI only considers the probability of i
 
 $ "UCB" := mu(x) + beta sigma(x), $
 
-where $beta$ controls the exploration/exploitaion tradeoff. When $beta$ is small, the algorithm will explore regions with high $mu(x)$, on the contrary, when $beta$ is large, BO rewards the exploration of currently uncharted areas (high $sigma(x)$).
+where $beta$ controls the exploration/exploitaion tradeoff. When $beta$ is small, the algorithm will explore regions with high $mu(x)$, on the contrary, when $beta$ is large, BO rewards the exploration of currently uncharted areas (high $sigma(x)$). A much simpler approach is #emph("Thompson sampling"), where we basically draw a sample from the GP and evaluate our function at the maximum of the drawn sample.
+
+#figure(
+  image("figures/acq_funcs.jpg", width: 100%),
+  caption: [Examples of acqusition functions for standard BO.  \
+  #text(0.6em)[ Image source: https://www.borealisai.com/wp-content/uploads/2020/06/T9_2-2.png] ]
+)
+
+As we have seen, evaluating an acquisition function requires evaluating an integral over the posterior. However, in higher-dimensional settings, this is usually analytically intractable. An alternative is to use Monte-Carlo sampling to approximate the integrals @Monte-Catlo-botorch. For example, we can approximate EI as follow :
+
+$ "EI" (bold(X)) approx 1/N sum_(i=1)^N max_(j = 1, ..., q) I(xi_(i j)), $ <EI_monte-carlo>
+
+where $bold(X) = [bold(x)_1, ... , bold(x)_q]$ is discretized input space and $bold(xi)_i$ is a realization of $P([f(bold(x)_1), ..., f(bold(x)_q)])$, $q >> N$.
+
+#figure(
+  image("figures/expected_improvement_mc.png", width: 85%),
+  caption: [3 Monte Carlo realizations $bold(xi)_i$ given #text(rgb("#99C1F1"))[observed data]. #text(red)[Red] horizontal lines represents argument of the maximum value of improvement for a monte carlo sample]
+)
