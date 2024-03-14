@@ -132,7 +132,7 @@ table(
   image("figures/samples_1,4_0,2.png", width: 100%),
   ),
   kind: image,
-  caption: [4 sampled functions from GPs with a SE kernel (bottom) and associated slices through the kernel $k(x_i, dot.c)$ (top) as a function of the second argument. On the left side $[a, l_1] = [1, 2]$ and on the right $[a, l_1^2] = [1.4, 0.08]$. ┈ are means, #box(rect(fill: rgb("#CADEDE"), height: 8pt, width: 8pt, radius: 1pt), baseline: 5%) represents $plus.minus sigma$ and $plus.minus 2 sigma$ confidence bands]
+  caption: [4 sampled functions from GPs with a SE kernel (bottom) and associated slices through the kernel $k(x_i, dot.c)$ (top) as a function of the second argument. On the left side $[a, l_1] = [1, 2]$ and on the right $[a, l_1^2] = [1.4, 0.08]$. ┈ are means, #box(rect(fill: rgb("#A2C6C6"), height: 8pt, width: 8pt, radius: 1pt), baseline: 5%) represents $plus.minus sigma$ and #box(rect(fill: rgb("#CADEDE"), height: 8pt, width: 8pt, radius: 1pt), baseline: 5%) $plus.minus 2 sigma$ confidence bands]
 ) <samples_se>
 
 As we mentioned before, kernels are responsible for the structure of the modeled functions. Morevoer, we can combine different kernels via addition and multiplication to obtain functions with specific characteristics (see Chapter 2 of @Duvenaud2014).
@@ -186,3 +186,17 @@ where $"E"[dot.c]$ indicates the expectation taken under the posterior distribut
 
 $ "EI" (x) &= (mu(x) - f(x^*)) (1 - Phi(z_0)) + sigma phi(z_0), \
   z_0 &= (f(x^*) - mu(x))/sigma(x) $ 
+
+Another widely used acqusition function is #emph("Probability of Improvement"):
+
+$ "PI" (x) := P(f(x) > f(x^*)). $ <PI_definition>
+
+which can by simply evaluated with the same change of variables as in @A_EI, giving us :
+
+$ "PI" (x) = Phi ((mu(x) - f(x^*)) / sigma(x)) $
+
+The difference beetween PI and EI is that PI only considers the probability of improvement and not the expected magnitude of the new evaluation. The simplest acqusition function is #emph("Upper Confidence Bound"):
+
+$ "UCB" := mu(x) + beta sigma(x), $
+
+where $beta$ controls the exploration/exploitaion tradeoff. When $beta$ is small, the algorithm will explore regions with high $mu(x)$, on the contrary, when $beta$ is large, BO rewards the exploration of currently uncharted areas (high $sigma(x)$).
