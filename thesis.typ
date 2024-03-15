@@ -48,7 +48,7 @@
 - $f$ can be noisy, which is very relevant in the case where objective is obtained from an physical experiment.
 - Also, BO is suited for cases where we want to find a global, rather than a local extremum.
 
-The algorithm is composed of two main components: a statistical #emph("surrogate model") of the objective and an #emph("acqusition function"). The common choice for the surrogate is to use Gaussian Process (shortly GP) regression (@f_sim_gp) to model the function that we want to optimize. However, it can be anything that can make a prediction with the associated uncertainty about it.
+The algorithm is composed of two main components: a statistical #emph("surrogate model") of the objective and an #emph("acqusition function"). The common choice for surrogate is to use Gaussian Processes (shortly GP) regression (@f_sim_gp) to model the function that we want to optimize. However, it can be anything that can make a prediction with the associated uncertainty about it.
 
 $ f(bold(x)) tilde cal(G) cal(P) (mu(bold(x)), k(bold(x), bold(x)')) $ <f_sim_gp>
 
@@ -58,7 +58,7 @@ The acqusition function $alpha(bold(x))$ is a heuristic that "tells" us where is
 
 $ bold(x)_n = "argmax" alpha_(n-1) (bold(x)) $
 
-These functions are "cheaper" to optimize relative to the objective, so that traditional optimization techniques are employed. There are a lot of acqusition functions based on different assumptions. For example, a widely used acqusition function is Expected Improvemnt $upright(E)upright(I)(bold(x))$, as the name suggests this function returns the expected value to observe a better objective than observed so far. 
+These functions are "cheaper" to optimize relative to the objective, so that traditional optimization techniques are employed. There are a lot of acqusition functions based on different assumptions. For example, a widely used acqusition function is Expected Improvement $upright(E)upright(I)(bold(x))$, as the name suggests this function returns the expected improvement relative to the best observed value so far.. 
 
 Basic Bayesian Optimization is a sequential algorithm, here the pseudo-code is shown (adapted from @Frazier2018-dq):
 
@@ -81,7 +81,7 @@ Basic Bayesian Optimization is a sequential algorithm, here the pseudo-code is s
 
 First $n$ points are usually generated using Sobol sequences @Sobol1967-nw to evenly sample from input space. Here $N$ is the number of available evaluations. 
 
-In the next subchapters we disucss the components of BO in more details.
+In the next sections we disucss the components of BO in more details.
 
 == Gaussian Processes <chapter-gp>
 
@@ -117,7 +117,7 @@ In @marginalization we have an unkown 1D function, where we made 3 evaluations. 
 The covariance matrix should be symmetric and positive, which limits the number of possible functions that $k$ can take. If we want to model smooth functions, the usual choice for the kernel is the Squared Exponential kernel (SE):
 
 $ k(bold(x), bold(x')) &= a exp(- norm(bold(x) - bold(x'))^2), \ 
-  norm(bold(x) - bold(x'))^2 &:= sum_(i=1)^d (x_i - x'_i) / (l_i^2) $ <SE_kernel>
+  norm(bold(x) - bold(x'))^2 &:= sum_(i=1)^d (x_i - x'_i) / (l_i^2), $ <SE_kernel>
 
 $bold(theta) := [a, l_1, ..., l_d]$ are known as the #emph("hyperparameters") of the kernel, and they are responsible of the form of the sampled function. It is interesting to note that these hyperparameters are interpretable (see @samples_se). For example, if we take into consideration case $d=1$, we have only 2 hyperparameters $a$ and $l_1$. In this case, $a$ will influence the amplitude of the sampled functions, and $l_1$ the lengthscale (how fast our functions vary). 
 
@@ -132,7 +132,7 @@ table(
   image("figures/samples_1,4_0,2.png", width: 100%),
   ),
   kind: image,
-  caption: [4 sampled functions from GPs with a SE kernel (bottom) and associated slices through the kernel $k(x_i, dot.c)$ (top) as a function of the second argument. On the left side $[a, l_1] = [1, 2]$ and on the right $[a, l_1^2] = [1.4, 0.08]$. ┈ are means, #box(rect(fill: rgb("#A2C6C6"), height: 8pt, width: 8pt, radius: 1pt), baseline: 5%) represents $plus.minus sigma$ and #box(rect(fill: rgb("#CADEDE"), height: 8pt, width: 8pt, radius: 1pt), baseline: 5%) $plus.minus 2 sigma$ confidence bands]
+  caption: [4 sampled functions from GP with a SE kernel (bottom) and associated slices through the kernel $k(x_i, dot.c)$ (top) as a function of the second argument. On the left side $[a, l_1^2] = [1, 2]$ and on the right $[a, l_1^2] = [1.4, 0.08]$. ┈ are means, #box(rect(fill: rgb("#A2C6C6"), height: 8pt, width: 8pt, radius: 1pt), baseline: 5%) represents $plus.minus sigma$ and #box(rect(fill: rgb("#CADEDE"), height: 8pt, width: 8pt, radius: 1pt), baseline: 5%) $plus.minus 2 sigma$ confidence bands]
 ) <samples_se>
 
 As we mentioned before, kernels are responsible for the structure of the modeled functions. Morevoer, we can combine different kernels via addition and multiplication to obtain functions with specific characteristics (see Chapter 2 of @Duvenaud2014).
@@ -156,7 +156,7 @@ $P(bold(theta) | bold(f))$ is known as the #emph("posterior"), $P(bold(f) | bold
 
 $ P(bold(f)) = integral P(bold(f) | bold(theta)) P(bold(theta)) d bold(theta) $
 
- Most of the times, this integral is not analytically tractable and analytical approximation or Monte carlo methods are used. As mentioned before, we want to maximize probability to see observed values given a set of hyperparameters :
+ Most of the times, this integral is not analytically tractable and analytical approximation or Monte Carlo methods are used. As mentioned before, we want to chhose hyperparameters that maximize the probability to see observed values :
 
 $ hat(bold(theta)) = arg max P(bold(theta) | bold(f)) = arg max P(bold(f) | bold(theta)) P(bold(theta)), $ <MAP>
 
@@ -168,17 +168,17 @@ Since GP assumes that function values are generated from a multivariate normal d
 
 $ ln P(bold(f) | bold(theta)) = -n/2 ln 2 pi - 1/2 ln |bold(K)| - 1/2 (bold(f) - bold(mu))^T bold(K)^(-1) (bold(f) - bold(mu)) $ <logP>
 
-An important detail is that if our observations are noisy $bold(y) := bold(f) + bold(epsilon)$, we can model it by adding a diagonal matrix to the covariance matrix. In the case in which we assume that all obervations have the same variance (#emph("homoscedastic") noise), we simply add $sigma^2 I$ to $bold(K)$. When noise is different for each observation (#emph("heterorscedastic") noise), associated variances are added to the diagonal. Moreover, we can add correlations beetween noises to off-diagonal elements if known.
+An important detail is that if our observations are noisy $bold(y) := bold(f) + bold(epsilon)$, we can model it by adding a diagonal matrix to the covariance matrix. In the case in which we assume that all obervations have the same variance of the noise (#emph("homoscedastic") noise), we simply add $sigma^2 I$ to $bold(K)$. When noise is different for each observation (#emph("heterorscedastic") noise), associated variances are added to the diagonal. Moreover, we can add correlations beetween noises to off-diagonal elements if known.
 
 // TODO: derivation eq: 5.9 din @Rasmussen2005
 
-Because $bold(theta)$ in @logP is nested inside the correlation matrix, deriving an analytical formula is not feasible. Therefore, we need to emply numerical optimization techinques to maximize $ln P(bold(f) | bold(theta))$.
+Because $bold(theta)$ in @logP is nested inside the correlation matrix, deriving an analytical formula is not feasible. Therefore, we need to employ numerical optimization techinques to maximize $ln P(bold(f) | bold(theta))$.
 
 == Acqusition functions <chapter-af>
 
-In this chapter we will discuss in detail the most commonly used acqusition function, namely Expected Improvemnt. We will limit our analysis to 1D case and also will mention other functions used for #emph("standard") BO problems (check chapter 5 of @Frazier2018-dq for an introduction in Exotic BO).
+In this section we will discuss in detail the most commonly used acqusition function, namely Expected Improvement. We will limit our analysis to 1D case and also will mention other functions used for #emph("standard") BO problems (check chapter 5 of @Frazier2018-dq for an introduction in Exotic BO).
 
-Suppose that we performed a number of evaluations and $f(x^*)$ is the best value observed so far. Now we have one additional evaluation to perform, and we can perform it anywhere. We define improvemnt as $I (x) := max(f(x) - f(x^*), 0)$. While we would like to choose $x$ such that this improvement is large, $f(x)$ is unkown until after the evaluation. What we can do, however, is to take the expected value of this improvement and choose $x$ to maximize it. We define the expected improvement:
+Suppose that we performed a number of evaluations and $f(x^*)$ is the best value observed so far. Now we have one additional evaluation to perform, and we can perform it anywhere. We define improvement as $I (x) := max(f(x) - f(x^*), 0)$. While we would like to choose $x$ such that this improvement is large, $f(x)$ is unkown until after the evaluation. What we can do, however, is to take the expected value of this improvement and choose $x$ to maximize it. We define the expected improvement:
 
 $ "EI" (x) := E [I (x)], $ <EI_definition>
 
@@ -191,18 +191,18 @@ Another widely used acqusition function is #emph("Probability of Improvement"):
 
 $ "PI" (x) := P(f(x) > f(x^*)). $ <PI_definition>
 
-which can by simply evaluated with the same change of variables as in @A_EI, giving us :
+which can be simply evaluated with the same change of variables as in @A_EI, giving us :
 
 $ "PI" (x) = Phi ((mu(x) - f(x^*)) / sigma(x)) $
 
 The difference beetween PI and EI is that PI only considers the probability of improvement and not the expected magnitude of the new evaluation. The simplest acqusition function is #emph("Upper Confidence Bound"):
 
-$ "UCB" := mu(x) + beta sigma(x), $
+$ "UCB" (x) := mu(x) + beta sigma(x), $
 
 where $beta$ controls the exploration/exploitaion tradeoff. When $beta$ is small, the algorithm will explore regions with high $mu(x)$, on the contrary, when $beta$ is large, BO rewards the exploration of currently uncharted areas (high $sigma(x)$). A much simpler approach is #emph("Thompson sampling"), where we basically draw a sample from the GP and evaluate our function at the maximum of the drawn sample.
 
 #figure(
-  image("figures/acq_funcs.jpg", width: 100%),
+  image("figures/acq_funcs.jpg", width: 85%),
   caption: [Examples of acqusition functions for standard BO.  \
   #text(0.6em)[ Image source: https://www.borealisai.com/wp-content/uploads/2020/06/T9_2-2.png] ]
 )
@@ -211,9 +211,9 @@ As we have seen, evaluating an acquisition function requires evaluating an integ
 
 $ "EI" (bold(X)) approx 1/N sum_(i=1)^N max_(j = 1, ..., q) I(xi_(i j)), $ <EI_monte-carlo>
 
-where $bold(X) = [bold(x)_1, ... , bold(x)_q]$ is discretized input space and $bold(xi)_i$ is a realization of $P([f(bold(x)_1), ..., f(bold(x)_q)])$, $q >> N$.
+where $bold(X) = [bold(x)_1, ... , bold(x)_q]$ is discretized input space and $bold(xi)_i$ is a realization of $P([f(bold(x)_1), ..., f(bold(x)_q)])$. Usually $q > N$.
 
 #figure(
   image("figures/expected_improvement_mc.png", width: 85%),
-  caption: [3 Monte Carlo realizations $bold(xi)_i$ given #text(rgb("#99C1F1"))[observed data]. #text(red)[Red] horizontal lines represents argument of the maximum value of improvement for a monte carlo sample]
+  caption: [3 Monte Carlo realizations $bold(xi)_i$, represented by dotted lines, given #text(rgb("#99C1F1"))[observed data]. #text(red)[Red] horizontal lines represents argument of the maximum value of improvement for a monte carlo sample]
 )
