@@ -4,6 +4,8 @@
 
 == 1D Expected Improvemnt  <A_EI>
 
+This derivation is adapted from #text("https://ekamperi.github.io/machine%20learning/2021/06/11/acquisition-functions.html", size: 0.55em).  
+
 By definition we have:
 
 $ "EI" (x) = "E" [I(x)] = integral_(-oo)^(+oo) I(x) cal(N) (mu(x), sigma^2(x)) d f(x) $
