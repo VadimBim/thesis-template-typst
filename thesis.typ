@@ -217,3 +217,14 @@ where $bold(X) = [bold(x)_1, ... , bold(x)_q]$ is discretized input space and $b
   image("figures/expected_improvement_mc.png", width: 85%),
   caption: [3 Monte Carlo realizations $bold(xi)_i$, represented by dotted lines, given #text(rgb("#99C1F1"))[observed data]. #text(red)[Red] horizontal lines represents argument of the maximum value of improvement for a monte carlo sample]
 )
+
+= Laser Wakefield Acceleration (LFWA)
+
+LFWA, for the first time proposed by Tajima and Dawson in 1979 @Tajima1979, is a promising technique for obtaining high-energy electron bunches on acceleration distances much smaller compared to the conventional accelerators (see @RF_vs_plasmcavity). The main idea is to use high gradients of the electric field obtained when an ultra-short, high-power laser pulse goes through an #emph("underdense") (more details in the following sections) plasma. Through the effect of the #emph("ponderomotive force"), electrons are expelled, while ions that are much heavier than electrons ($m_i >> m_e$) can be considered immobile. This charge imbalance creates a longitudinal plasma wave that follows the driver (laser). In the bubble-like structure behind the driver, electrons can be injected using different methods (self-injection, optical injection, ionization injection, etc.), each having its own advantages and disadvantages.
+
+#figure(
+  image("figures/RF_vs_plasmcavity.png", width: 85%),
+  caption: [Left: Readiofrequency cavity. Right: Laser plasma Wakefield. The paser pulse in #text(yellow)[yellow] propagates from left to right, the iso-electric density os hown in #text(blue)[blue] and the lectron bunch in red #text(red)[red]. Image credits to @Malka2016]
+) <RF_vs_plasmcavity>
+
+In the next sections, we will define plasma and how we can describe it. Then, we will limit our description to the physical scenario relevant to the LFWA case. After this, the dynamics of the accelerated bunch and its radiation will be briefly presented.
