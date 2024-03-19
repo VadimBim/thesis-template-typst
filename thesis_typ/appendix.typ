@@ -3,6 +3,7 @@
 #set math.equation(numbering: "1")
 
 #import "@preview/physica:0.9.2": *
+#import "@preview/cetz:0.2.2": canvas, plot
 
 
 == 1D Expected Improvemnt  <A_EI>
@@ -40,9 +41,9 @@ Imagine we are inserting a positive charge into a plasma:
 
 #figure(
   image("../figures/big_charge.png",width:55%),
-  caption: [The screening effect caused by a #text(rgb("#3333CC"))[positively] charged particle immersed into a plasma. electrons are represented as #text(red)[-]])
+  caption: [The screening effect caused by a #text(rgb("#3333CC"))[positively] charged particle immersed into a plasma. Electrons are represented as #text(red)[-]])
 
-In this case, surrounding charges can screen the action of the "big" external charge. Action at which this action can be felt is named Debye length. We can derive it's value by considering the following conditions:
+In this case, surrounding charges can screen the action of the "big" external charge. Distance at which this action can be felt is named Debye length. We can derive it's value by considering the following conditions:
 
 - Ions are immobile because $m_i >> m_e$
 - Perturbation caused by big charge is small: $(Delta U) / (k_B T) << 1$
@@ -56,4 +57,49 @@ and thermal equilibrim condition we have:
 
 $ &-e underbrace(vb(E), - grad Phi) = 1/n_e grad p = k_B T grad ln(n_e) arrow.r \
   &grad (k_B T ln(n_e) - e Phi) = vb(0) arrow.r \
-  &n_e = n_0 exp((e Phi)/(k_B T)) $
+  &n_e = n_0 exp((e Phi)/(k_B T)), $
+
+where $n_0$ is the electron density before the charge was immersed and $Phi$ is the electric potential created the charge. Recalling the Poisson's equation and using the assumption about small perturbations with quasi-neutrality($n_i tilde.eq n_0$) we have:
+
+$ laplacian Phi = - rho / epsilon_0 = - e/epsilon_0 (n_i - n_e) = - e/epsilon_0 n_0 underbracket((1 - exp((e Phi)/(k_B T))), tilde.eq (e Phi)/(k_B T)). $
+
+Now using the spherical symmetry ($laplacian = 1/r^2  dv(, r) ( r^2 dv(Phi, r) )$) we arrive at the following second order differential equation:
+
+$ dv(Phi, r, 2) + 2/r dv(Phi, r) - underbrace((n_0 e^2)/(epsilon_0 k_B T), := 1/lambda_D^2) Phi = 0, $
+
+with the general solution: 
+
+$ Phi(r) = c_1/r e^(-r/lambda_D) + c_2/r e^(#h(0.3em) r/lambda_D). $
+
+By keeping only physically meaningful solution ($Phi arrow.r 0 "at" r arrow.r oo$) and knowing that we must return to classical Coulomb potential when there is no screening ($lambda_D arrow.r oo$) we arrive at:
+
+$ Phi(r) = 1/(4 pi epsilon_0) e^(-r/lambda_D)/r . $
+#pagebreak()
+//Aici sa scrii despre semnificatia fizica etc. in loc de pagebreack
+#figure(
+canvas(length: 1.4cm, {
+  plot.plot(size: (7, 5),
+    x-tick-step: 1,
+    y-tick-step: 1,
+    x-max: 7,
+    y-max: 6,
+    x-min: 0,
+    y-min: 0,
+    x-label: $r$,
+    y-label: $Phi$,
+    legend: "legend.inner-north-east",
+    {
+      plot.add(
+        domain: (0.01, 7),
+        samples: 100,
+        x => 1/x,
+        label: [Coulomb potential]
+        )
+      plot.add(
+        domain: (0.01, 7),
+        samples: 100,
+        x => 1/x * calc.exp(-x/2),
+        label: [Screened potential $lambda_D = 2$]
+        )
+    })
+}), caption: "Qualitative representation of the fact that screened potential decays faster than Coulomb potential.",)
