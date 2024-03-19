@@ -229,3 +229,19 @@ LFWA, for the first time proposed by Tajima and Dawson in 1979 @Tajima1979, is a
 ) <RF_vs_plasmcavity>
 
 In the next sections, we will define plasma and how we can describe it. Then, we will limit our description to the physical scenario relevant to the LFWA case. After this, the dynamics of the accelerated bunch and its radiation will be briefly presented.
+
+== Plasma 
+
+#rect(
+  width: 100%,
+  radius: 10%,
+  stroke: 0.5pt,
+  fill: rgb("#E6F9FF"),
+)[#emph("Plasma is a quasi-neutral ionized gas of charged particles supporting collective phenomena.")]
+
+#emph("Quasi-neutrality") means that charge densities of positive and negative particles are approximately equal $n_(+) tilde.eq n_(-)$. Usually, most negatively charged particles are electrons, and positively charged ones are ions. The density of particles and temperature $T$ determine the type of plasma (see @plasma-types). In the LFWA scenario, we are dealing with "cold" and "underdense" plasma. Cold means that the range for the kinetic energy of electrons is $E_c tilde.eq [10^2, 10^3] "eV"$. Underdense means that we are in the density range $n_e = 10^(18) - 10^(24) "cm"^(-3)$. In @plasma-types, $N_D$ is the number of electrons in the #emph("Debye sphere") (see @plasma-lt-scale).
+
+#figure(
+  image("figures/Plasma-types.png", width: 85%),
+  caption: [Example of plasma types in the density-temperature plasne. Image credits to @Gibon2020]
+) <plasma-types>
