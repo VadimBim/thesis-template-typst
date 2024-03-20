@@ -169,7 +169,7 @@ Since GP assumes that function values are generated from a multivariate normal d
 
 $ ln P(vb(f) | vb(theta)) = -n/2 ln 2 pi - 1/2 ln |vb(K)| - 1/2 (vb(f) - vb(mu))^T vb(K)^(-1) (vb(f) - vb(mu)) $ <logP>
 
-An important detail is that if our observations are noisy $vb(y) := vb(f) + vb(epsilon)$, we can model it by adding a diagonal matrix to the covariance matrix. In the case in which we assume that all obervations have the same variance of the noise (#emph("homoscedastic") noise), we simply add $sigma^2 I$ to $vb(K)$. When noise is different for each observation (#emph("heterorscedastic") noise), associated variances are added to the diagonal. Moreover, we can add correlations beetween noises to off-diagonal elements if known.
+An important detail is that if our observations are noisy $vb(y) := vb(f) + vb(epsilon)$, we can model it by adding a diagonal matrix to the covariance matrix. In the case in which we assume that all obervations have the same variance of the noise (#emph("homoscedastic") noise), we simply add $sigma^2 I$ to $vb(K)$. When noise is different for each observation (#emph("heterorscedastic") noise), associated variances are added to the diagonal. Moreover, we can add correlations between noises to off-diagonal elements if known.
 
 // TODO: derivation eq: 5.9 din @Rasmussen2005
 
@@ -196,7 +196,7 @@ which can be simply evaluated with the same change of variables as in @A_EI, giv
 
 $ "PI" (x) = Phi ((mu(x) - f(x^*)) / sigma(x)) $
 
-The difference beetween PI and EI is that PI only considers the probability of improvement and not the expected magnitude of the new evaluation. The simplest acqusition function is #emph("Upper Confidence Bound"):
+The difference between PI and EI is that PI only considers the probability of improvement and not the expected magnitude of the new evaluation. The simplest acqusition function is #emph("Upper Confidence Bound"):
 
 $ "UCB" (x) := mu(x) + beta sigma(x), $
 

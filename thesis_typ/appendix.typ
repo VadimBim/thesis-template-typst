@@ -37,16 +37,16 @@ where $z'_0 = (mu(x) - f(x^*) - xi )/sigma(x)$. In this way, we are pretending t
 
 In this section, we will quantatively define and describe two essential quantities in plasma physics: #emph("Debye length") $lambda_D$ and #emph("plasma frequency") $omega_p$.
 
-Imagine we are inserting a positive charge into a plasma:
+Imagine we are inserting a positive charge $Q$ into a plasma:
 
 #figure(
   image("../figures/big_charge.png",width:55%),
   caption: [The screening effect caused by a #text(rgb("#3333CC"))[positively] charged particle immersed into a plasma. Electrons are represented as #text(red)[-]])
 
-In this case, surrounding charges can screen the action of the "big" external charge. Distance at which this action can be felt is named Debye length. We can derive it's value by considering the following conditions:
+In this case, electrons can screen the action of the "big" external charge. Distance at which this action can be felt is named Debye length $lambda_D$. We can derive it's value by considering the following conditions:
 
 - Ions are immobile because $m_i >> m_e$
-- Perturbation caused by big charge is small: $(Delta U) / (k_B T) << 1$
+- Perturbation caused by the big charge is small: $(e Phi) / (k_B T) << 1$
 - Thermal equilibrium is perserved: $p = n_e k_B T$
 
 First, we will derive the density of electrons in this region. By using dynamical equilibrim:
@@ -59,23 +59,28 @@ $ &-e underbrace(vb(E), - grad Phi) = 1/n_e grad p = k_B T grad ln(n_e) arrow.r 
   &grad (k_B T ln(n_e) - e Phi) = vb(0) arrow.r \
   &n_e = n_0 exp((e Phi)/(k_B T)), $
 
-where $n_0$ is the electron density before the charge was immersed and $Phi$ is the electric potential created the charge. Recalling the Poisson's equation and using the assumption about small perturbations with quasi-neutrality($n_i tilde.eq n_0$) we have:
+where $n_0$ is the electron density before the charge was immersed and $Phi$ is the electric potential created by the charge. Recalling the Poisson's equation and using the assumption about small perturbations with quasi-neutrality ($n_i tilde.eq n_0$), we have:
 
 $ laplacian Phi = - rho / epsilon_0 = - e/epsilon_0 (n_i - n_e) = - e/epsilon_0 n_0 underbracket((1 - exp((e Phi)/(k_B T))), tilde.eq (e Phi)/(k_B T)). $
 
 Now using the spherical symmetry ($laplacian = 1/r^2  dv(, r) ( r^2 dv(Phi, r) )$) we arrive at the following second order differential equation:
 
-$ dv(Phi, r, 2) + 2/r dv(Phi, r) - underbrace((n_0 e^2)/(epsilon_0 k_B T), := 1/lambda_D^2) Phi = 0, $
+$ dv(Phi, r, 2) + 2/r dv(Phi, r) - underbrace((n_0 e^2)/(epsilon_0 k_B T), := 1/lambda_D^2) Phi = 0, $ <Phi_ODE>
 
 with the general solution: 
 
 $ Phi(r) = c_1/r e^(-r/lambda_D) + c_2/r e^(#h(0.3em) r/lambda_D). $
 
-By keeping only physically meaningful solution ($Phi arrow.r 0 "at" r arrow.r oo$) and knowing that we must return to classical Coulomb potential when there is no screening ($lambda_D arrow.r oo$) we arrive at:
+By keeping only physically meaningful solution ($eval(Phi)_(r arrow.r oo) arrow.r 0$) and also knowing that we must return to classical Coulomb potential when there is no screening ($eval(Phi)_(lambda_D arrow.r oo) = Q/(4 pi epsilon_0) 1/r$) we arrive at:
 
-$ Phi(r) = 1/(4 pi epsilon_0) e^(-r/lambda_D)/r . $
-#pagebreak()
-//Aici sa scrii despre semnificatia fizica etc. in loc de pagebreack
+$ Phi(r) = Q/(4 pi epsilon_0) e^(-r/lambda_D)/r . $ <screened_potential>
+
+In @Phi_ODE we defined Debye length as follow:
+
+$ lambda_D = sqrt((epsilon_0 k_B T)/(n_0 e^2)). $
+
+We can observe that $lambda_D prop sqrt(T)$, which means that, from a phenomenological point of view, the higher the kinetic energy of the electrons is, the harder it is for them to screen the effect of the external charge. If the kinetic energy is small, electrons will be packed more densely around the external charge, thus increasing the screening effect ($lambda_D arrow.br$). Also, $lambda_D prop 1 / sqrt(n_0)$ states that the more electrons in the system, the better the screening of the external potential.
+
 #figure(
 canvas(length: 1.4cm, {
   plot.plot(size: (7, 5),
@@ -86,7 +91,7 @@ canvas(length: 1.4cm, {
     x-min: 0,
     y-min: 0,
     x-label: $r$,
-    y-label: $Phi$,
+    y-label: [$Phi$ [a.u.]],
     legend: "legend.inner-north-east",
     {
       plot.add(
@@ -102,4 +107,12 @@ canvas(length: 1.4cm, {
         label: [Screened potential $lambda_D = 2$]
         )
     })
-}), caption: "Qualitative representation of the fact that screened potential decays faster than Coulomb potential.",)
+}), caption: [Comparison between fast decaying screened potential (@screened_potential) and Coulomb potential.],)
+
+Debye length and density of electrons determine if #emph("collective") effects will dominate over collisions between particles. The condition for this to happen is:
+
+$ lambda_D >> "distance between particles", $
+
+which is equivalent to the fact that the number of particles in the Debye sphere is big:
+
+$ N_D = n_e (4 pi) / 3 lambda_D^3 >> 1. $
