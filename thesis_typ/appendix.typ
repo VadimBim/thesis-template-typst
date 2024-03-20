@@ -33,7 +33,7 @@ $ "EI" (x, xi) = (mu(x) - f(x^*) - xi )(1 - Phi(z'_0)) + sigma(x) phi(z'_0), $
 
 where $z'_0 = (mu(x) - f(x^*) - xi )/sigma(x)$. In this way, we are pretending that the best current value is higher than it actually is #math.arrow.r more exploration.
 
-== Plasma's lentgh-time scale <plasma-lt-scale>
+== Plasma's length-time scale <plasma-lt-scale>
 
 In this section, we will quantatively define and describe two essential quantities in plasma physics: #emph("Debye length") $lambda_D$ and #emph("plasma frequency") $omega_p$.
 
@@ -116,3 +116,26 @@ $ lambda_D >> "distance between particles", $
 which is equivalent to the fact that the number of particles in the Debye sphere is big:
 
 $ N_D = n_e (4 pi) / 3 lambda_D^3 >> 1. $
+
+Now, we will define plasma frequency by looking at a simple model named #emph("capacitor model") (see @capacitor_model). Consider that we have a system of electrons and ions in equilibrium, and somehow, we display all electrons to the right by a small amount $x$. If we let the system evolve, electrons will oscillate (ions can be considered stationary because of the same assumption $m_i >> m_e$) with a specific frequency. To derive this frequency, we will start with the equation of motion for the electrons:
+
+$ m_e dot.double(x) = -e E. $ <eom_capacitor>
+
+The magnitude of the electric field will be given by the positive charge on the left surface $sigma$ in the approximation $sqrt("surface") >> x$ (see Example 2.2 from @Griffiths2023): 
+
+$ E = sigma / epsilon_0 = (n_0 x)/epsilon_0. $ 
+
+If we write $sigma$ in terms of volume charge density $sigma = n_0 x$, @eom_capacitor becomes:
+
+$ dot.double(x) + omega^2_p x = 0, $
+
+where we defined plasma frequency as:
+
+$ omega_p = sqrt((n_0 e^2)/(m_e epsilon_0)). $
+
+This quantity gives the characteristic time scale of the processes that occur in plasma.
+
+#figure(
+  image("../figures/capacitor_model.png", width: 85%),
+  caption: [Capacitor model]
+) <capacitor_model>
