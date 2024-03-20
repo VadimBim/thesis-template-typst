@@ -237,11 +237,25 @@ In the next sections, we will define plasma and how we can describe it. Then, we
   radius: 10%,
   stroke: 0.5pt,
   fill: rgb("#E6F9FF"),
-)[#emph("Plasma is a quasi-neutral ionized gas of charged particles supporting collective phenomena.")]
+)[#emph("Plasma is a quasi-neutral ionized gas that can support collective phenomena.")]
 
-#emph("Quasi-neutrality") means that charge densities of positive and negative particles are approximately equal $n_(+) tilde.eq n_(-)$. Usually, most negatively charged particles are electrons, and positively charged ones are ions. The density of particles and temperature $T$ determine the type of plasma (see @plasma-types). In the LFWA scenario, we are dealing with "cold" and "underdense" plasma. Cold means that the range for the kinetic energy of electrons is $E_c tilde.eq [10^2, 10^3] "eV"$. Underdense means that we are in the density range $n_e = 10^(18) - 10^(24) "cm"^(-3)$. In @plasma-types, $N_D$ is the number of electrons in the #emph("Debye sphere") (see @plasma-lt-scale).
+#emph("Quasi-neutrality") means that charge densities of positive and negative particles are approximately equal $n_(+) tilde.eq n_(-)$. Usually, most negatively charged particles are electrons, and positively charged ones are ions. The density of particles and temperature $T$ determine the type of plasma (see @plasma-types). In the LFWA scenario, we are dealing with "cold" and "dense" plasma. Cold means that the range for the kinetic energy of electrons is $E_c tilde.eq [10^2, 10^3] "eV"$. Dense means that we are in the density range $n_e = 10^(18) - 10^(24) "cm"^(-3)$. In @plasma-types, $N_D$ is the number of electrons in the #emph("Debye sphere") (see @plasma-lt-scale).
+
+#pagebreak()
 
 #figure(
   image("figures/Plasma-types.png", width: 85%),
   caption: [Example of plasma types in the density-temperature plasne. Image credits to @Gibon2020]
 ) <plasma-types>
+
+The most accurate and feasible description of plasma dynamics is captured by kinetic theory, which describes the evolution of #emph("distribution function") $f_s (vb(r), vb(p), t)$ in the phase space. Distribution function shows the density of particles of species $s$ in the voxel centered at point $(vb(r), vb(p))$ in phase space at time $t$. For a collisionless plasma the continuity equation in phase is:
+
+$ pdv(f_s, t) + vb(v) dprod grad_(vb(r)) f_s + q_s (vb(E) + vb(v)/c cprod vb(B)) dprod grad_(vb(p)) f_s = 0, $ <Vlasov-eq>
+
+where $vb(v) = vb(p)/(m_s gamma_s) = (c vb(p))/sqrt(m_s^2 c^2 + vb(p)^2)$ is the relativistic velocity of particles. The above equation is known as the Vlasov equation. Together with the Maxwell equations, it forms a #emph("self-consistent") system of equations that describes plasma dynamics. Where sources are given by:
+
+$ rho = sum_s q_s n_s  vb(j) = sum_s q_s n_s $
+
+#grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ rho = sum_s q_s n_s $), $ vb(j) = sum_s q_s n_s $)
+
+However, the Vlasov-Maxwell system is impossible to solve analytically except for a limited number of simple systems.
