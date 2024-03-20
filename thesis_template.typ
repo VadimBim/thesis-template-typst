@@ -25,7 +25,7 @@
   )
   
   show math.equation: set text(weight: 400)
-  set math.equation(supplement: [eq.])
+  set math.equation(supplement: [Eq.])
   set math.equation(numbering: eqCounter => {
     locate(eqLoc => {
       // numbering of the equation: change this to fit your style
