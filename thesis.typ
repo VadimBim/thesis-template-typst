@@ -245,17 +245,26 @@ In the next sections, we will define plasma and how we can describe it. Then, we
 
 #figure(
   image("figures/Plasma-types.png", width: 85%),
-  caption: [Example of plasma types in the density-temperature plasne. Image credits to @Gibon2020]
+  caption: [Example of plasma types in the density-temperature plane. Image credits to @Gibon2020]
 ) <plasma-types>
 
-The most accurate and feasible description of plasma dynamics is captured by kinetic theory, which describes the evolution of #emph("distribution function") $f_s (vb(r), vb(p), t)$ in the phase space. Distribution function shows the density of particles of species $s$ in the voxel centered at point $(vb(r), vb(p))$ in phase space at time $t$. For a collisionless plasma the continuity equation in phase is:
+The most accurate and feasible description of plasma dynamics is captured by kinetic theory, which describes the evolution of #emph("distribution function") $f_s (vb(r), vb(p), t)$ in the phase space. The distribution function shows the density of particles of species $s$ in the voxel centered at point $(vb(r), vb(p))$ in phase space at time $t$. Physical observables can be obtained by integrating moments of $f_s$. For example, if we integrate this object over momentum coordinate, we can obtain the average density for each species $n_s (vb(r), t)$ and mean velocity $vb(u)_s (vb(r), t)$:
 
-$ pdv(f_s, t) + vb(v) dprod grad_(vb(r)) f_s + q_s (vb(E) + vb(v)/c cprod vb(B)) dprod grad_(vb(p)) f_s = 0, $ <Vlasov-eq>
+#grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ n_s (vb(r), t) = integral f_s dd(vb(p)^3) $), $ vb(u)_s (vb(r), t) = 1/n_s integral vb(v) f_s dd(vb(p)^3) $)
 
-where $vb(v) = vb(p)/(m_s gamma_s) = (c vb(p))/sqrt(m_s^2 c^2 + vb(p)^2)$ is the relativistic velocity of particles. The above equation is known as the Vlasov equation. Together with the Maxwell equations, it forms a #emph("self-consistent") system of equations that describes plasma dynamics. Where sources are given by:
+For a collisionless #footnote([If we want to include collisions in our model, we are inserting a #emph("collision integral") in the RHS of @Vlasov-eq]) plasma, the continuity equation in phase is:
 
-$ rho = sum_s q_s n_s  vb(j) = sum_s q_s n_s $
+$ pdv(f_s, t) + vb(v) dprod grad_(vb(r)) f_s + q_s (vb(E) + vb(v) cprod vb(B)) dprod grad_(vb(p)) f_s = 0, $ <Vlasov-eq>
 
-#grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ rho = sum_s q_s n_s $), $ vb(j) = sum_s q_s n_s $)
+where $vb(v) = vb(p)/(m_s gamma_s) = (c vb(p))/sqrt(m_s^2 c^2 + vb(p)^2)$ is the velocity of particles in relativistic regime. The above equation is known as the Vlasov equation. Together with the Maxwell equations, it forms a #emph("self-consistent") system of equations that describes plasma dynamics. Where sources are given by:
 
-However, the Vlasov-Maxwell system is impossible to solve analytically except for a limited number of simple systems.
+#grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ rho = sum_s q_s n_s $), $ vb(j) = sum_s q_s n_s vb(u)_s $)
+
+However, the Vlasov-Maxwell system is impossible to solve analytically except for a limited number of simple systems. In our case, we will employ a simpler model derived from kinetic theory (see section 2.2.2 @Macchi2013), the so-called #emph("fluid model") of plasma. this model assumes that each species with density $n_s$ and velocity $vb(u)_s$ behaves in a fluid-like manner. We will consider ion fluid stationary, and for electrons, we have:
+
+$ &pdv(n_e, t) + div (n_e vb(u)_e) = 0 \
+  &n_e m_e dv(vb(u)_e, t) = - n_e e (vb(E) + vb(u)_e cprod vb(B)) - grad P_e \
+  &"Maxwell equations" \
+  &dv(, t) (P_e n_e^(-gamma_e)) = 0 $ <fluid_model>
+
+The last equation in @fluid_model is known as the closure condition, making our equations complete. $gamma_e = (2 + N)/N$ is the specific head ratio, where $N$ is the number of degrees of freedom.
