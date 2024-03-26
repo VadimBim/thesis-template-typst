@@ -260,11 +260,44 @@ where $vb(v) = vb(p)/(m_s gamma_s) = (c vb(p))/sqrt(m_s^2 c^2 + vb(p)^2)$ is the
 
 #grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ rho = sum_s q_s n_s $), $ vb(j) = sum_s q_s n_s vb(u)_s $)
 
-However, the Vlasov-Maxwell system is impossible to solve analytically except for a limited number of simple systems. In our case, we will employ a simpler model derived from kinetic theory (see section 2.2.2 @Macchi2013), the so-called #emph("fluid model") of plasma. this model assumes that each species with density $n_s$ and velocity $vb(u)_s$ behaves in a fluid-like manner. We will consider ion fluid stationary, and for electrons, we have:
+Where $q_s$ is the charge of species $s$. However, the Vlasov-Maxwell system is impossible to solve analytically except for a limited number of simple systems. In our case, we will employ a simpler model derived from kinetic theory (see section 2.2.2 @Macchi2013), the so-called #emph("fluid model") of plasma. this model assumes that each species with density $n_s$ and velocity $vb(u)_s$ behaves in a fluid-like manner. We will consider ion fluid stationary, and for electrons, we have:
 
 $ &pdv(n_e, t) + div (n_e vb(u)_e) = 0 \
   &n_e m_e dv(vb(u)_e, t) = - n_e e (vb(E) + vb(u)_e cprod vb(B)) - grad P_e \
   &"Maxwell equations" \
   &dv(, t) (P_e n_e^(-gamma_e)) = 0 $ <fluid_model>
 
-The last equation in @fluid_model is known as the closure condition, making our equations complete. $gamma_e = (2 + N)/N$ is the specific head ratio, where $N$ is the number of degrees of freedom.
+The last equation in @fluid_model is known as the closure condition, making our equations complete. $gamma_e = (2 + N)/N$ is the specific heat ratio, where $N$ is the number of degrees of freedom for the electron.
+
+== Plasma waves
+
+Plasma, like any other fluid, can transfer energy through waves. We will derive the #emph("dispersion relation") of plasma waves by following the approach in section 3.1 @Gibon2020. 
+
+Let's consider @fluid_model in 1D case. We will note with $Z$ the number of protons an ion has. Also, we will suppose that fluid velocities are small $=> vb(u)_e cprod vb(B) tilde.eq vb(0)$, and because our system is constrained to 1D, electrons have only 1 degree of freedom $N=1 => gamma_e = 3$. With all of this, one can write:
+
+$ pdv(n_e, t) + pdv((n_e u_e), x) &= 0 \ 
+  n_e (pdv(u_e, t) + u_e pdv(u_e, x)) &= -e/m n_e E - 1/m pdv(P_e, x) \
+  dv(, t) ( P_e / (n_e^3) ) &= 0  \ 
+  pdv(E, x) = e/epsilon_0 (Z n_i - n_e) &underbracket(=, Z n_i tilde.eq n_0) e/epsilon_0 (n_0 - n_e) $ <fluid_model_1D>
+
+Now, we have 4 non-linear differential equations. To linearize them, we will consider that our system exhibits small perturbations and will ignore higher-order terms in these perturbations:
+
+$ n_e := n_0 + n_1 \
+  u_e := u_1 \
+  P_e := P_0 + P_1 \
+  E := E_1. $ <1D_perturbations>
+
+Taking this into account, @fluid_model_1D become:
+
+$ pdv(n_1, t) + n_0 pdv(u_1, x) &= 0 \
+  n_0 pdv(u_1, t) &= - e/m_e n_0 E_1 - 1/m_e pdv(P_1, x) \ 
+  pdv(E_1, x) &= - e / epsilon_0 n_1 \
+  P_1 &= 3 k_B T_e n_1 $ <fluid_model_1D_linearized>
+
+For pressure, we assumed isothermal background electrons $P_0 = k_B T_e n_0$ (check @linearization_pressure for details). If we take time derivative of the first equation in @fluid_model_1D_linearized, write $pdv(u_1, t, s: \/)$ using second equation and eliminate $pdv(E_1, x, s: \/)$ and $P_1$ with third and fourth equation, we will get :
+
+$ (pdv(, t, 2) - 3 v_("th")^2 pdv(, x, 2) + omega_p^2) n_1 = 0, $
+
+where $omega_p$ is plasma frequency as defined in @plasma-lt-scale and $v_("th")^2 := k_B T_e slash m_e$ is the squared of electronic thermal velocity. If we look for plane wave solutions of the form $n_1 = n_0 exp(i(omega t - k x))$, differential operators become: $partial_t arrow.r i omega$ and $partial_x arrow.r -i k$, giving us in the end the Bohm-Gross dispersion relation:
+
+$ omega^2 = omega_p^2 + 3 v^2_("th") k^2 $
