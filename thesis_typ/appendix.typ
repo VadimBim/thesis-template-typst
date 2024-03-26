@@ -90,7 +90,7 @@ canvas(length: 1.4cm, {
     y-max: 6,
     x-min: 0,
     y-min: 0,
-    x-label: $r$,
+    x-label: [$r$ [a.u.]],
     y-label: [$Phi$ [a.u.]],
     legend: "legend.inner-north-east",
     {
@@ -107,7 +107,7 @@ canvas(length: 1.4cm, {
         label: [Screened potential $lambda_D = 2$]
         )
     })
-}), caption: [Comparison between fast decaying screened potential (@screened_potential) and Coulomb potential.],)
+}), caption: [Comparison between fast decaying screened potential (@screened_potential) and Coulomb potential. Bot $Phi$ and $r$ are in arbitrary units],)
 
 Debye length and density of electrons determine if #emph("collective") effects will dominate over collisions between particles. The condition for this to happen is:
 
@@ -139,3 +139,18 @@ This quantity gives the characteristic time scale of the processes that occur in
   image("../figures/capacitor_model.png", width: 85%),
   caption: [Capacitor model]
 ) <capacitor_model>
+
+#pagebreak()
+
+== Linearization of pressure equation <linearization_pressure>
+
+#math.equation(block: true, numbering: none, $dv(, t) ((P_0 + P_1)/(n_0 + n_1)^3) &tilde.eq dv(, t) ((P_0 + P_1)/(n_0^3 + 3 n_0^2 n_1)) = 0 <=> \ 
+  k_B T_e dv(, t) (1/(n_0^2 + 3 n_0 n_1)) &+ dv(, t) (P_1 / (n_0^3 + 3 n_0^2 n_1)) = 0 <=> \
+  dv(, t) (P_1 / (n_0^3 + 3 n_0^2 n_1)) &= - k_B T_e dv(((n_0^2 + 3 n_0 n_1)^(-1)), (n_0^2 + 3 n_0 n_1)) dv((n_0^2 + 3 n_0 n_1), t) <=> \
+  1/(n_0^3 + 3 n_0^2 n_1) dv(P_1, t) + P_1 dv(, t) (1/((n_0^3 + 3 n_0^2 n_1))) &= k_B T_e (3 n_0)/((n_0^2 + 3 n_0 n_1)^2) dv(n_1, t) <=> \ 
+  1/(n_0^3 + 3 n_0^2 n_1) dv(P_1, t) - P_1 (3 n_0^2)/((n_0^3 + 3 n_0^2 n_1)^2) dv(n_1, t) &= (3 k_B T_e n_0)/((n_0^2 + 3 n_0 n_1)^2) dv(n_1, t) bar.v dprod (n_0^3 + 3 n_0^2 n_1)^2 => \
+  (n_0^3 + 3 n_0^2 n_1) dv(P_1, t) - 3 n_0^2 P_1 dv(n_1, t) &= 3 n_0 k_B T_e dv(n_1, t) ((n_0^3 + 3 n_0^2 n_1)/(n_0^2 + 3 n_0 n_1))^2 <=> \
+  dv(P_1, t) = 3 k_B T_e dv(n_1, t) <=> dv( ,t) (P_1 - 3 k_B T_e n_1) = 0 &<=> P_1 - 3 k_B T_e n_1 = "const." => \
+  P_1 &= 3 k_B T_e n_1$)
+
+In the transition from line 1 to 2 we used $P_0 = k_B T_e n_0$. For simplicity, we put constant equal to zero.
