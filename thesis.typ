@@ -323,3 +323,15 @@ Suppose the electron follows a simple sinusoidal trajectory $x(z) = x_0 sin(k_u 
 We can define the parameter $K := gamma Psi$, which tells us in what regime are we (#emph("undulator") for $K << 1$ or #emph("wiggler") $K >> 1$). In the undulator regime, the radiation spectrum is centered at fundamental frequency $omega$, which depends on the angle of observation $theta$. The radiation opening (divergence) in this case is $theta_r = 1/gamma$ 
 
 For the wiggler regime, the spectrum will contain harmonics up to #emph("critical frequency") $omega_c$. The divergence of the emitted radiation in the direction of the oscillation will be $theta_X = K/gamma$ and will remain the same in the direction perpendicular to the oscillation $theta_Y = 1/gamma$.
+
+Now let us consider an ideal electron bunch consisting of $N_e$ electrons. By ideal, we mean that electrons have the same energy and initial momentum. Also, we assume that electrons follow the same reference trajectory $vb(r)(t)$, but with a spatio-temporal translation $(t_j, vb(R)_j)$. In this case, emitted radiation can be written as:
+
+$ dd(cal(W), 2) / (dd(omega) dd(Omega)) = underbrace(abs(sum_(j=1)^N_e e^(i omega (t_j - (vb(n) dprod vb(R)_j)/c)))^2, c(omega)) dprod eval(dd(cal(W), 2) / (dd(omega) dd(Omega)))_("ref"), $
+
+where $c(omega)$ is the #emph("coherance factor") which depends on the initial distribution of translations $eval({t_j, vb(R)_j})_(j=1)^N_e$. If the sample $eval({t_j, vb(R)_j})_(j=1)^N_e$ follows a unifrom distribution, in the limit $N_e arrow.r oo$ $c(omega) = 0$. For a normal distribution, on the average $c(omega) = N_e$ (this is the case of the electrons obtained from accelerators). Also, if the distribution has a very small variance (electrons are tightly confined in the bunch), we say that the distribution is #emph("microbunched"). In this case, $c(n dprod omega_u) = N_e^2$ where $n in NN^*$ is the number of transversal oscillations made by the bunch and $omega_u = (2 pi c) / lambda_u$ is the associated frequency. In reality, however, a microbunched scenario is hard to achieve.
+
+For a real bunch, electrons do not have the same energy and momentum. The parameter that accounts for it is called #emph("emittance"), which is strongly linked to the volume occupied by the electrons in the 6D phase space $(vb(r)(t), vb(p)(t))$. A derived quantity is normalized emittance:
+
+$ epsilon_a = sqrt(<Delta a^2> <Delta p^2 >- <Delta a Delta p_a>^2)/(m_e c), $
+
+,where $Delta psi := psi - <psi>$ and $a in {x, y, z}$.
