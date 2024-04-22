@@ -219,16 +219,16 @@ where $vb(X) = [vb(x)_1, ... , vb(x)_q]$ is discretized input space and $vb(xi)_
   caption: [3 Monte Carlo realizations $vb(xi)_i$, represented by dotted lines, given #text(rgb("#99C1F1"))[observed data]. #text(red)[Red] horizontal lines represents argument of the maximum value of improvement for a monte carlo sample]
 )
 
-= Laser Wakefield Acceleration (LFWA)
+= Laser Wakefield Acceleration (LWFA)
 
-LFWA, for the first time proposed by Tajima and Dawson in 1979 @Tajima1979, is a promising technique for obtaining high-energy electron bunches on acceleration distances much smaller compared to the conventional accelerators (see @RF_vs_plasmcavity). The main idea is to use high electric fields obtained when an ultra-short, high-power laser pulse goes through an #emph("underdense") (more details in the following sections) plasma. Through the effect of the #emph("ponderomotive force"), electrons are expelled, while ions that are much heavier than electrons ($m_i >> m_e$) can be considered immobile. This charge imbalance creates a longitudinal plasma wave that follows the driver (laser). In the bubble-like structure behind the driver, electrons can be injected using different methods (self-injection, optical injection, ionization injection, etc.), each having its own advantages and disadvantages.
+LWFA, for the first time proposed by Tajima and Dawson in 1979 @Tajima1979, is a promising technique for obtaining high-energy electron bunches on acceleration distances much smaller compared to the conventional accelerators (see @RF_vs_plasmcavity). The main idea is to use high electric fields obtained when an ultra-short, high-power laser pulse goes through an #emph("underdense") (more details in the following sections) plasma. Through the effect of the #emph("ponderomotive force"), electrons are expelled, while ions that are much heavier than electrons ($m_i >> m_e$) can be considered immobile. This charge imbalance creates a longitudinal plasma wave that follows the driver (laser). In the bubble-like structure behind the driver, electrons can be injected using different methods (self-injection, optical injection, ionization injection, etc.), each having its own advantages and disadvantages.
 
 #figure(
   image("figures/RF_vs_plasmcavity.png", width: 85%),
   caption: [Left: Readiofrequency cavity. Right: Laser plasma Wakefield. The paser pulse in #text(yellow)[yellow] propagates from left to right, the iso-electric density os hown in #text(blue)[blue] and the lectron bunch in red #text(red)[red]. Image credits to @Malka2016]
 ) <RF_vs_plasmcavity>
 
-In the next sections, we will define plasma and how we can describe it. Then, we will limit our description to the physical scenario relevant to the LFWA case. After this, the dynamics of the accelerated bunch and its radiation will be briefly presented.
+In the next sections, we will define plasma and how we can describe it. Then, we will limit our description to the physical scenario relevant to the LWFA case. After this, the dynamics of the accelerated bunch and its radiation will be briefly presented.
 
 == Plasma 
 
@@ -239,7 +239,7 @@ In the next sections, we will define plasma and how we can describe it. Then, we
   fill: rgb("#E6F9FF"),
 )[#emph("Plasma is a quasi-neutral ionized gas that can support collective phenomena.")]
 
-#emph("Quasi-neutrality") means that charge densities of positive and negative particles are approximately equal $n_(+) tilde.eq n_(-)$. Usually, most negatively charged particles are electrons, and positively charged ones are ions. The density of particles and temperature $T$ determine the type of plasma (see @plasma-types). In the LFWA scenario, we are dealing with "cold" and "dense" plasma. Cold means that the range for the kinetic energy of electrons is $E_c tilde.eq [10^2, 10^3] "eV"$. Dense means that we are in the density range $n_e = 10^(18) - 10^(24) "cm"^(-3)$. In @plasma-types, $N_D$ is the number of electrons in the #emph("Debye sphere") (see @plasma-lt-scale).
+#emph("Quasi-neutrality") means that charge densities of positive and negative particles are approximately equal $n_(+) tilde.eq n_(-)$. Usually, most negatively charged particles are electrons, and positively charged ones are ions. The density of particles and temperature $T$ determine the type of plasma (see @plasma-types). In the LWFA scenario, we are dealing with "cold" and "dense" plasma. Cold means that the range for the kinetic energy of electrons is $E_c tilde.eq [10^2, 10^3] "eV"$. Dense means that we are in the density range $n_e = 10^(18) - 10^(24) "cm"^(-3)$. In @plasma-types, $N_D$ is the number of electrons in the #emph("Debye sphere") (see @plasma-lt-scale).
 
 #pagebreak()
 
@@ -252,7 +252,7 @@ The most accurate and feasible description of plasma dynamics is captured by kin
 
 #grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ n_s (vb(r), t) = integral f_s dd(vb(p)^3) $), $ vb(u)_s (vb(r), t) = 1/n_s integral vb(v) f_s dd(vb(p)^3) $)
 
-For a collisionless #footnote([If we want to include collisions in our model, we are inserting a #emph("collision integral") in the RHS of @Vlasov-eq]) plasma, the continuity equation in phase is:
+For a collisionless #footnote([If we want to include collisions in our model, we are inserting a #emph("collision integral") in the RHS of @Vlasov-eq]) plasma, the continuity equation in phase space is:
 
 $ pdv(f_s, t) + vb(v) dprod grad_(vb(r)) f_s + q_s (vb(E) + vb(v) cprod vb(B)) dprod grad_(vb(p)) f_s = 0, $ <Vlasov-eq>
 
@@ -260,7 +260,7 @@ where $vb(v) = vb(p)/(m_s gamma_s) = (c vb(p))/sqrt(m_s^2 c^2 + vb(p)^2)$ is the
 
 #grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ rho = sum_s q_s n_s $), $ vb(j) = sum_s q_s n_s vb(u)_s $)
 
-Where $q_s$ is the charge of species $s$. However, the Vlasov-Maxwell system is impossible to solve analytically except for a limited number of simple systems. In our case, we will employ a simpler model derived from kinetic theory (see section 2.2.2 @Macchi2013), the so-called #emph("fluid model") of plasma. this model assumes that each species with density $n_s$ and velocity $vb(u)_s$ behaves in a fluid-like manner. We will consider ion fluid stationary, and for electrons, we have:
+Where $q_s$ is the charge of species $s$. However, the Vlasov-Maxwell system is impossible to solve analytically except for a limited number of simple systems. In our case, we will employ a simpler model derived from kinetic theory (see section 2.2.2 @Macchi2013), the so-called #emph("fluid model") of plasma. this model assumes that each species with density $n_s$ and velocity $vb(u)_s$ behaves in a fluid-like manner. We will consider ion fluid stationary, and for the electrons we have:
 
 $ &pdv(n_e, t) + div (n_e vb(u)_e) = 0 \
   &n_e m_e dv(vb(u)_e, t) = - n_e e (vb(E) + vb(u)_e cprod vb(B)) - grad P_e \
@@ -269,11 +269,9 @@ $ &pdv(n_e, t) + div (n_e vb(u)_e) = 0 \
 
 The last equation in @fluid_model is known as the closure condition, making our equations complete. $gamma_e = (2 + N)/N$ is the specific heat ratio, where $N$ is the number of degrees of freedom for the electron.
 
-== Plasma waves
+Plasma, like any other fluid, can transfer energy through waves. We will derive the #emph("dispersion relation") of plasma waves by following the approach in section 3.1 from @Gibon2020. 
 
-Plasma, like any other fluid, can transfer energy through waves. We will derive the #emph("dispersion relation") of plasma waves by following the approach in section 3.1 @Gibon2020. 
-
-Let's consider @fluid_model in 1D case. We will note with $Z$ the number of protons an ion has. Also, we will suppose that fluid velocities are small $=> vb(u)_e cprod vb(B) tilde.eq vb(0)$, and because our system is constrained to 1D, electrons have only 1 degree of freedom $N=1 => gamma_e = 3$. With all of this, one can write:
+Let's consider @fluid_model in 1D case. We will note with $Z$ the number of protons an ion has. Also, we will suppose that fluid velocities are small, making the term $ prop vb(u)_e cprod vb(B) tilde.eq vb(0)$. Because our system is constrained to 1D, electrons have only 1 degree of freedom $N=1 => gamma_e = 3$. With all of this, one can write:
 
 $ pdv(n_e, t) + pdv((n_e u_e), x) &= 0 \ 
   n_e (pdv(u_e, t) + u_e pdv(u_e, x)) &= -e/m n_e E - 1/m pdv(P_e, x) \
