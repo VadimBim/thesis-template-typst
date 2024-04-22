@@ -299,3 +299,27 @@ $ (pdv(, t, 2) - 3 v_("th")^2 pdv(, x, 2) + omega_p^2) n_1 = 0, $
 where $omega_p$ is plasma frequency as defined in @plasma-lt-scale and $v_("th")^2 := k_B T_e slash m_e$ is the squared of electronic thermal velocity. If we look for plane wave solutions of the form $n_1 = n_0 exp(i(omega t - k x))$, differential operators become: $partial_t arrow.r i omega$ and $partial_x arrow.r -i k$, giving us in the end the Bohm-Gross dispersion relation:
 
 $ omega^2 = omega_p^2 + 3 v^2_("th") k^2 $
+
+== Betatron Radiation
+
+The accelerated relativistic electrons obtained with LWFA can wiggle strongly. This wiggling causes electrons to radiate energy. The radiation emitted by an electron in the direction of observation $vb(n)$ (assuming that observation of the radiation is made #emph("far") from the electron) is given by (see eq. 14.65 from @Jackson1998-cw):
+
+$ dd(cal(W), 2) / (dd(omega) dd(Omega)) = e^2/(4 pi^2 c) abs(integral_(-oo)^(+oo) dd(t) e^(i omega (t - (vb(n) dprod vb(r)(t))/c )) (vb(n) cprod [(vb(n) - vb(beta)) cprod dot(vb(beta))])/(1 - vb(beta) dprod vb(n))^2)^2. $
+
+$dd(cal(W), 2) / (dd(omega) dd(Omega))$ is the energy radiated within a spectral band $dd(omega)$ centered on the frequency $omega$ in solid angle $dd(Omega)$ centered on the direction of observation $vb(n)$. $vb(beta)$ is the velocity of the electron normalized to the speed of light $c$, and $vb(r)(t)$ is the position of the electron function of time. Some important conlusions can be derived from the above equation:
+
+1. If $dot(vb(beta)) = 0$, no radiation is observed, which means that acceleration is responsible for the radiation emission.
+2. Energy is maximum when $vb(beta) dprod vb(n) arrow.r 1 <=> beta tilde.eq 1$ and $vb(beta) || vb(n)$. Relativistic electrons will radiate orders of magnitude higher than non-relativistic ones. This is a direct consequence of Lorentz transformation. 
+3. Because $dot(vb(beta)_(||)) prop vb(F)_(||)/gamma^3$ and $dot(vb(beta)_(perp)) prop vb(F)_(perp)/gamma$, applying transverse force is more efficient for the relativistic electron ($gamma >> 1$) if we want it to radiate stronger.
+4. Locally, $e^(i omega (t - vb(n) dprod vb(r)/c)) tilde.eq e^(i omega (1 - beta))$. The integral will give a non-zero result when the integrand (without exponential) oscillates approximatively with the same frequency as the exponential $omega (1 -beta)$. If we define $omega_(e^-)$ the frequency at which $vb(beta)$ varies, for a non-zero result $omega_(e^-) tilde.eq omega (1 - beta)$. The electron will radiate higher at the frequency $omega = omega_(e^-)/(1 - beta) tilde.eq 2 gamma^2 omega_(e^-)$. This is exactly the Doppler upshift. We can obtain X-rays by wiggling a relativistic electron at a frequency far below the X-ray range: $omega_(e^-) tilde.eq omega_X/(2 gamma^2)$.
+
+Suppose the electron follows a simple sinusoidal trajectory $x(z) = x_0 sin(k_u z)$ with a constant velocity $beta$ and the spatial period $lambda_u$.
+
+#figure(
+  image("figures/undulator_vs_wiggler.png", width: 55%),
+  caption: [Two radiation regimes. The #text(rgb("#C0C3E2"))[shaded] cones represent the direction of the instantaneously emitted radiation with an opening $Delta theta ~ 1 slash gamma$. $Psi$ is the maximum angle between $vb(beta)$ and $vb(e)_z$. Image adapted from @Corde2013 section II. A.]
+) <undulator_vs_wiggler>
+
+We can define the parameter $K := gamma Psi$, which tells us in what regime are we (#emph("undulator") for $K << 1$ or #emph("wiggler") $K >> 1$). In the undulator regime, the radiation spectrum is centered at fundamental frequency $omega$, which depends on the angle of observation $theta$. The radiation opening (divergence) in this case is $theta_r = 1/gamma$ 
+
+For the wiggler regime, the spectrum will contain harmonics up to #emph("critical frequency") $omega_c$. The divergence of the emitted radiation in the direction of the oscillation will be $theta_X = K/gamma$ and will remain the same in the direction perpendicular to the oscillation $theta_Y = 1/gamma$.
