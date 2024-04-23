@@ -228,7 +228,7 @@ LWFA, for the first time proposed by Tajima and Dawson in 1979 @Tajima1979, is a
   caption: [Left: Readiofrequency cavity. Right: Laser plasma Wakefield. The paser pulse in #text(yellow)[yellow] propagates from left to right, the iso-electric density os hown in #text(blue)[blue] and the lectron bunch in red #text(red)[red]. Image credits to @Malka2016]
 ) <RF_vs_plasmcavity>
 
-In the next sections, we will define plasma and how we can describe it. Then, we will limit our description to the physical scenario relevant to the LWFA case. After this, the dynamics of the accelerated bunch and its radiation will be briefly presented.
+In the next sections, we will define plasma and how we can describe it. Then, we will introduce plasma waves and the ponderomotive force. We will end this chapter with the description of the #emph("bubble") regime of LWFA, which is suited for acceleration of electrons up to relativistic energies.
 
 == Plasma 
 
@@ -269,6 +269,8 @@ $ &pdv(n_e, t) + div (n_e vb(u)_e) = 0 \
 
 The last equation in @fluid_model is known as the closure condition, making our equations complete. $gamma_e = (2 + N)/N$ is the specific heat ratio, where $N$ is the number of degrees of freedom for the electron.
 
+== Waves in plasma
+
 Plasma, like any other fluid, can transfer energy through waves. We will derive the #emph("dispersion relation") of plasma waves by following the approach in section 3.1 from @Gibon2020. 
 
 Let's consider @fluid_model in 1D case. We will note with $Z$ the number of protons an ion has. Also, we will suppose that fluid velocities are small, making the term $ prop vb(u)_e cprod vb(B) tilde.eq vb(0)$. Because our system is constrained to 1D, electrons have only 1 degree of freedom $N=1 => gamma_e = 3$. With all of this, one can write:
@@ -304,13 +306,22 @@ To derive the dispersion relation for EM transverse waves of the #emph("laser"),
 
 $ (laplacian - 1/c^2 pdv( ,t, 2) - omega_p^2/c^2 ) vb(E) = vb(0) $
 
-With plane wave anstaz, we arrive at dispersion relation for EM waves:
+With plane wave ansatz, we arrive at the dispersion relation for EM waves:
 
 $ omega_L^2 = c^2 k_L^2 + omega_p^2. $
 
-The dispersion relations gives an overview of which propagation modes are permitted.
-
+The dispersion relations give an overview of which propagation modes are permitted.
 // TODO Cetz plot with dispersion relation as in @Gibon2020.
+
+Now we can introduce #emph("critical density") by setting $omega_L = omega_p$:
+
+$ n_(e,c) = (m_e epsilon_0)/e^2 omega_L^2 = 1.1/(lambda_L^2[mu m]) 10^(21) "cm"^(-3) $
+
+If $omega_L < omega_p$, the plasma response is fast enough to reflect the incident laser. We call this type of plasma #emph("overdense") because the laser cannot pass through. On the contrary, if $omega_L > omega_p$, the laser can pass, and the plasma is called #emph("underdense"). We now can define phase velocity and plasma velocity for the laser:
+
+#grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ v_phi := omega_L/k_L = c/eta $), $ v_g := pdv(omega_L, k_L) = eta c $,)
+
+where $eta = sqrt(1 - omega_p^2/omega_L^2)$ is the refractive index. We can also associate a Lorentz gamma factor as $gamma_L := 1 slash sqrt(1 - (v_g / c)^2) tilde.eq omega_L/omega_p$.
 
 = Betatron Radiation
 
