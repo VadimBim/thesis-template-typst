@@ -298,7 +298,19 @@ $ (pdv(, t, 2) - 3 v_("th")^2 pdv(, x, 2) + omega_p^2) n_1 = 0, $
 
 where $omega_p$ is plasma frequency as defined in @plasma-lt-scale and $v_("th")^2 := k_B T_e slash m_e$ is the squared of electronic thermal velocity. If we look for plane wave solutions of the form $n_1 = n_0 exp(i(omega t - k x))$, differential operators become: $partial_t arrow.r i omega$ and $partial_x arrow.r -i k$, giving us in the end the Bohm-Gross dispersion relation:
 
-$ omega^2 = omega_p^2 + 3 v^2_("th") k^2 $
+$ omega^2 = omega_p^2 + 3 v^2_("th") k^2 $ <Bohm-Gross-dispersion>
+
+To derive the dispersion relation for EM transverse waves of the #emph("laser"), we will apply $curl$ to $curl vb(E) = -diff_t vb(B)$ and will use $curl vb(B) = mu_0 epsilon_0 diff_t vb(E) + mu_0 vb(j)$. Where the charge current $vb(j) tilde.eq -n_0 e vb(u)$. Using the vectorial identity $curl curl vb(a) = grad(div vb(a)) - laplacian vb(a)$ and taking into consideration that $div vb(E) = 0$ for pure EM waves with $m_e diff_t vb(u) = -e vb(E) $ (group and phase velocities of the laser are $>> v_("th")$ and we can assume $P_e tilde.eq 0$), we have:
+
+$ (laplacian - 1/c^2 pdv( ,t, 2) - omega_p^2/c^2 ) vb(E) = vb(0) $
+
+With plane wave anstaz, we arrive at dispersion relation for EM waves:
+
+$ omega_L^2 = c^2 k_L^2 + omega_p^2. $
+
+The dispersion relations gives an overview of which propagation modes are permitted.
+
+// TODO Cetz plot with dispersion relation as in @Gibon2020.
 
 = Betatron Radiation
 
