@@ -308,7 +308,7 @@ $ (laplacian - 1/c^2 pdv( ,t, 2) - omega_p^2/c^2 ) vb(E) = vb(0) $
 
 With plane wave ansatz, we arrive at the dispersion relation for EM waves:
 
-$ omega_L^2 = c^2 k_L^2 + omega_p^2. $
+$ omega_L^2 = c^2 k_L^2 + omega_p^2. $ <tranverse-dispersion>
 
 The dispersion relations give an overview of which propagation modes are permitted.
 // TODO Cetz plot with dispersion relation as in @Gibon2020.
@@ -322,6 +322,28 @@ If $omega_L < omega_p$, the plasma response is fast enough to reflect the incide
 #grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ v_phi := omega_L/k_L = c/eta $), $ v_g := pdv(omega_L, k_L) = eta c $,)
 
 where $eta = sqrt(1 - omega_p^2/omega_L^2)$ is the refractive index. We can also associate a Lorentz gamma factor as $gamma_L := 1 slash sqrt(1 - (v_g / c)^2) tilde.eq omega_L/omega_p$.
+
+In the following, we will follow section 3.3 of @Karsch2020 to arrive at an equation that quantitatively describes the excitation of plasma waves. 
+
+We will start by rewriting the second equation from @fluid_model in the relativistic regime ($m_e vb(u)_e arrow.r vb(p) = m_e gamma vb(u)_e$) and will keep $P_e = 0$ because of the same assumption used to derive @tranverse-dispersion. Also, we will write EM fields in terms of potentials $(Phi, vb(A))$ and drop the subindex $#hide("")_e$ for convenience:
+
+$ (diff_t + vb(u) dprod grad) vb(p) = e (grad Phi + diff_t vb(A) - vb(u) cprod curl vb(A) ). $
+
+We can put $e vb(u) cprod curl vb(A)$ to the left and add and subtract $vb(u) cprod (curl vb(p))$. Now, we can use the relation $grad p^2 = 2 [(vb(p) dprod grad) vb(p) + vb(p) (curl vb(p))]$ with $vb(p) = gamma m_e vb(u)$ and $gamma = sqrt(1 + (p/(m_e c))^2)$, to arrive at: 
+
+$ m_e c^2 gamma grad gamma = (vb(u) dprod grad) vb(p) + vb(u) cprod (curl vb(p)) $.
+
+We will consider that the electrons are driven only by the vector potential, which will allow us to set $vb(u) cprod curl(e vb(A) - vb(p)) = 0$. By introducing normalized quantities:
+
+#grid(columns: (1fr, 1fr, 1fr), math.equation(block: true, numbering: none, $ vb(a) := (e vb(A))/(m_e c) $), math.equation(block:true, numbering: none, $ phi := (e Phi)/(m_e c^2) $), math.equation(block: true, numbering: none,$ vb(pi) := vb(p)/(m_e c) $))
+
+,we arrive at:
+
+$ pdv(vb(pi), t) = pdv(vb(a), t) + c grad (phi - gamma). $
+
+The equation states that the dynamics of the electron fluid is dictated by the Coulomb force associated with the charge distribution ($c grad phi$) and the relativistic ponderomotive force ($- c grad gamma$).This equation is also the starting point for exploring the solution of linear and non-linearly driven plasma waves. The regime is given by the parameter $a_0$ #footnote([$a_0$ can be interpreted as the ration of the mean quiver energy to the electron rest mass.]) of the laser ($a_0 > 1 arrow.r$ non-linear and linear otherwise). 
+
+Although analytical treatment of the 3D non-linear regime is not possible, this study will explore it using PIC simulations. In this scenario, the so-called bubble regime can be achieved.
 
 = Betatron Radiation
 
