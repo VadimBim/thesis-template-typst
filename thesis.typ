@@ -319,9 +319,13 @@ $ n_(e,c) = (m_e epsilon_0)/e^2 omega_L^2 = 1.1/(lambda_L^2[mu m]) 10^(21) "cm"^
 
 If $omega_L < omega_p$, the plasma response is fast enough to reflect the incident laser. We call this type of plasma #emph("overdense") because the laser cannot pass through. On the contrary, if $omega_L > omega_p$, the laser can pass, and the plasma is called #emph("underdense"). We now can define phase velocity and plasma velocity for the laser:
 
-#grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ v_phi := omega_L/k_L = c/eta $), $ v_g := pdv(omega_L, k_L) = eta c $,)
+#grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ v_phi := omega_L/k_L = c/eta $), $ v_g := pdv(omega_L, k_L) = eta c $)
 
-where $eta = sqrt(1 - omega_p^2/omega_L^2)$ is the refractive index. We can also associate a Lorentz gamma factor as $gamma_L := 1 slash sqrt(1 - (v_g / c)^2) tilde.eq omega_L/omega_p$.
+where $eta = sqrt(1 - omega_p^2/omega_L^2)$ is the refractive index. We can also associate a Lorentz gamma factor as $gamma_L := 1 slash sqrt(1 - (v_g / c)^2) tilde.eq omega_L/omega_p$. One important observation is that the phase velocity of the plasma wave is approximately equal to the group velocity of the laser ($v_phi^p tilde.eq v_g^L$). Indeed,  if we start from @Bohm-Gross-dispersion:
+
+$ v_phi^p := omega/k_p = c sqrt(1 + underbrace((3 v_("th")^2)/c^2, << 1)) tilde.eq c, $
+
+we arrive at the conclusion that it is the same as the group velocity of the laser for an underdense plasma ($omega_p^2 << omega_L^2$).
 
 In the following, we will follow section 3.3 of @Karsch2020 to arrive at an equation that quantitatively describes the excitation of plasma waves. 
 
