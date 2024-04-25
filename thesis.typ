@@ -287,7 +287,7 @@ $ n_e := n_0 + n_1 \
   P_e := P_0 + P_1 \
   E := E_1. $ <1D_perturbations>
 
-Taking this into account, @fluid_model_1D become:
+Taking this into account, @fluid_model_1D becomes:
 
 $ pdv(n_1, t) + n_0 pdv(u_1, x) &= 0 \
   n_0 pdv(u_1, t) &= - e/m_e n_0 E_1 - 1/m_e pdv(P_1, x) \ 
@@ -349,7 +349,7 @@ Although analytical treatment of the 3D non-linear regime is not possible, this 
 
 The accelerated relativistic electrons obtained with LWFA can wiggle strongly. This wiggling causes electrons to radiate energy. The radiation emitted by an electron in the direction of observation $vb(n)$ (assuming that observation of the radiation is made #emph("far") from the electron) is given by (see eq. 14.65 from @Jackson1998-cw):
 
-$ dd(cal(W), 2) / (dd(omega) dd(Omega)) = e^2/(4 pi^2 c) abs(integral_(-oo)^(+oo) dd(t) e^(i omega (t - (vb(n) dprod vb(r)(t))/c )) (vb(n) cprod [(vb(n) - vb(beta)) cprod dot(vb(beta))])/(1 - vb(beta) dprod vb(n))^2)^2. $
+$ dd(cal(W), 2) / (dd(omega) dd(Omega)) = e^2/(4 pi^2 c) abs(integral_(-oo)^(+oo) dd(t) e^(i omega (t - (vb(n) dprod vb(r)(t))/c )) (vb(n) cprod [(vb(n) - vb(beta)) cprod dot(vb(beta))])/(1 - vb(beta) dprod vb(n))^2)^2. $ <dW_dwdOmgega>
 
 $dd(cal(W), 2) / (dd(omega) dd(Omega))$ is the energy radiated within a spectral band $dd(omega)$ centered on the frequency $omega$ in solid angle $dd(Omega)$ centered on the direction of observation $vb(n)$. $vb(beta)$ is the velocity of the electron normalized to the speed of light $c$, and $vb(r)(t)$ is the position of the electron function of time. Some important conclusions can be derived from the above equation:
 
@@ -373,7 +373,7 @@ Now let us consider an ideal electron bunch consisting of $N_e$ electrons. By id
 
 $ dd(cal(W), 2) / (dd(omega) dd(Omega)) = underbrace(abs(sum_(j=1)^N_e e^(i omega (t_j - (vb(n) dprod vb(R)_j)/c)))^2, c(omega)) dprod eval(dd(cal(W), 2) / (dd(omega) dd(Omega)))_("ref"), $
 
-where $eval(dd(cal(W), 2) / (dd(omega) dd(Omega)))_("ref")$ is the radiated energy of the reference trajectory and $c(omega)$ is the #emph("coherance factor") which depends on the initial distribution of translations $eval({t_j, vb(R)_j})_(j=1)^N_e$. If the sample $eval({t_j, vb(R)_j})_(j=1)^N_e$ follows a unifrom distribution, in the limit $N_e arrow.r oo$ $c(omega) = 0$. For a normal distribution, on the average $c(omega) = N_e$ (this is the case of the electrons obtained from accelerators). Also, if the distribution has a very small variance (electrons are tightly confined in the bunch), we say that the distribution is #emph("microbunched"). In this case, $c(n dprod omega_u) = N_e^2$ where $n in NN^*$ is the number of transversal oscillations made by the bunch and $omega_u = (2 pi c) / lambda_u$ is the associated frequency. In reality, however, the microbunched scenario is hard to achieve.
+where $eval(dd(cal(W), 2) / (dd(omega) dd(Omega)))_("ref")$ is the radiated energy of the reference trajectory given by @dW_dwdOmgega. $c(omega)$ is the #emph("coherance factor") which depends on the initial distribution of translations $eval({t_j, vb(R)_j})_(j=1)^N_e$. If the sample $eval({t_j, vb(R)_j})_(j=1)^N_e$ follows a unifrom distribution, in the limit $N_e arrow.r oo$ $c(omega) = 0$. For a normal distribution, on the average $c(omega) = N_e$ (this is the case of the electrons obtained from accelerators). Also, if the distribution has a very small variance (electrons are tightly confined in the bunch), we say that the distribution is #emph("microbunched"). In this case, $c(n dprod omega_u) = N_e^2$ where $n in NN^*$ is the number of transversal oscillations made by the bunch and $omega_u = (2 pi c) / lambda_u$ is the associated frequency. In reality, however, the microbunched scenario is hard to achieve.
 
 For a real bunch, electrons do not have the same energy and momentum. The parameter that accounts for it is called #emph("emittance"), which is strongly linked to the volume occupied by the electrons in the 6D phase space $(vb(r)(t), vb(p)(t))$. A derived quantity is normalized emittance:
 
