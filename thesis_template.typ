@@ -26,24 +26,12 @@
   
   show math.equation: set text(weight: 400)
   set math.equation(supplement: [Eq.])
-  set math.equation(numbering: eqCounter => {
-    locate(eqLoc => {
-      // numbering of the equation: change this to fit your style
-      let eqNumbering = numbering("1", eqCounter)
-      // numbering of the heading
-      let chapterCounter = counter(heading).at(eqLoc)
-      let chapterNumbering = numbering(
-        // use custom function to join array into string
-        (..nums) => nums
-          .pos()
-          .map(str)
-          .join("."),
-        ..chapterCounter
-      )
-    
-      // change this to fit your style
-      [(#chapterNumbering.#eqNumbering)]
-    })
+  set math.equation(numbering: eqCounter => context {
+    numbering(
+      "(1.1.1.1)",
+      ..counter(heading).get(),
+      eqCounter
+    )
   })
 
   // --- Headings ---
@@ -63,6 +51,13 @@
       numbering(
         el.numbering,
         ..counter(heading).at(el.location())
+      )
+    } else if el != none and el.func() == math.equation {
+      el.supplement
+      numbering(
+        " (1.1.1.1)",
+        ..counter(heading).at(el.location()),
+        ..counter(math.equation).at(el.location())
       )
     } else {
       it
