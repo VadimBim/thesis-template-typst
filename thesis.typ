@@ -345,9 +345,43 @@ We will consider that the electrons are driven only by the vector potential, whi
 
 $ pdv(vb(pi), t) = pdv(vb(a), t) + c grad (phi - gamma). $
 
-The equation states that the dynamics of the electron fluid is dictated by the Coulomb force associated with the charge distribution ($c grad phi$) and the relativistic ponderomotive force ($- c grad gamma$).This equation is also the starting point for exploring the solution of linear and non-linearly driven plasma waves. The regime is given by the parameter $a_0$ #footnote([$a_0$ can be interpreted as the ration of the mean quiver energy to the electron rest mass.]) of the laser ($a_0 > 1 arrow.r$ non-linear and linear otherwise). 
+The equation states that the dynamics of the electron fluid is dictated by the Coulomb force associated with the charge distribution ($c grad phi$) and the relativistic ponderomotive force ($- c grad gamma$).This equation is also the starting point for exploring the solution of linear and non-linearly driven plasma waves. The regime is given by the parameter $a_0$ #footnote([$a_0$ can be interpreted as the ration of the mean quiver energy to the electron rest mass.]) of the laser ($a_0 > 1 arrow.r$ non-linear, linear otherwise). 
 
 Although analytical treatment of the 3D non-linear regime is not possible, this study will explore it using PIC simulations. In this scenario, the so-called bubble regime can be achieved.
+
+== Bubble regime
+
+Bubble regime is obtained when a spherical cavity free of electrons is formed behind the laser (see @bubble_regime). The laser must be powerful enough ($a_0 gt.tilde 2$) to expel #emph("all") the electrons and to form the ion cavity. To enter this regime, one must fulfill the following matching conditions for the laser intensity, spot size $w_b$, pulse length ($c tau_0 lt.tilde w_b$), and plasma wavelength:
+
+$ w_b tilde.eq r_b = (2 sqrt(a_0))/k_p $
+
+#figure(
+  image("figures/bubble_regime.png", width: 60%),
+  caption: [Bubble regime observed in a 3D OSIRIS PIC simulation of LWFA acceleration. The laser is propagating towards the right. It can be seen that the bubble is fully developed and that the electron density drops to zero. Created fields exceed the wavebreaking limit, and in the back of the bubble, the transverse self-infection is visible. The energy of the injected electrons is color-coded in black to red. Image adapted from @Karsch2020]
+) <bubble_regime>
+
+The radius of this cavity was obtained from phenomenological studies of the 3D PIC simulations and is given by $r_b approx 2 sqrt(a_0) slash k_p$. Also, the fields were estimated for an ideal sphere in this case:
+
+#grid(columns: (1fr, 1fr, 1fr), math.equation(block: true, numbering: none, $ E_z/E_0 = k_p/2 xi $), math.equation(block:true, numbering: none, $ E_r/E_0 = k_p/4 r $), [$ B_theta/E_0 = - k_p /(4 c) r, $ <EM_bubble_field>])
+
+where $E_0 = m_e omega_p c slash e$ is the #emph([cold non-relativistic wavebreaking field]) (plasma fluid velocities are non-relativistic) and $xi := z - v_g t$ is the comoving longitudinal position. This is the value of the electric field at which background electrons can outrun the wake and, therefore, be injected. This process is called longitudinal wavebreaking. For fields greater than $E_0$, the fluid model of plasma @fluid_model is no longer valid. The maximum value of the longitudinal electric field is given by:
+
+$ E_(z,max) = E_0 sqrt(a_0) <=> E_(z,max)["GV"/"m"] tilde.eq 96 sqrt(n_(e, 0) [10^18 "cm"^(-3)]) sqrt(a_0) $
+
+It is important to keep in mind that EM fields from above were obtained with the following main physical assumptions:
+
+1. Matching conditions are perfectly met.
+2. The cavity is #strong([completely]) free of electrons.
+3. There is no interaction between the electrons bunch and the laser pulse.
+
+As a consequence, the EM fields are overestimated. One can substitute @EM_bubble_field into the equation of motion for the electron, which interacts with EM field $dot(vb(p)) = -e (vb(E) + vb(v) cprod vb(B))$, to derive forces:
+
+#math.equation(block: true, numbering: none, $ &dot(vb(p)) tilde.eq  -(e E_0 k_p)/2 [(r/2 vb(e)_r + xi vb(e)_z) - r/(2c) v_z underbrace(vb(e)_z cprod vb(e)_theta, -vb(e)_r)] =  \
+  &= -(m_e omega_p^2) / 2 (1/2(1 + v_z/c) r vb(e)_r + xi vb(e)_z) tilde.eq -(m_e omega_p^2) / 2 (r vb(e)_r + xi vb(e)_z) <=> $)
+
+#grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ F_perp = -(m_e omega_p^2) / 2 r  $), math.equation(block:true, $ F_parallel = -(m_e omega_p^2) / 2 xi $))
+
+We assumed that $v_z >> v_perp$ and $v_z slash c tilde.eq 1$. Transverse focusing of the electrons happens over the whole bubble, while defocusing occurs only on-axis density peak. For $xi in (0, r_b slash 2)$ electrons are decelerating. The distance, relative to the lab frame, over which electrons must propagate before they reach the middle of the bubble is named #emph("dephasing length") $:= L_d >> r_b$
 
 = Betatron Radiation
 
