@@ -427,7 +427,7 @@ In this chapter we are going to describe the main computaional tools in this stu
 
 The Particle-in-Cell method (PIC) is the most widely used numerical approach to simulating laser-plasma phenomena because of its conceptual simplicity (the implementation is quite cumbersome) and its ability to capture the detailed spectra of accelerated particles. 
 
-In this section, we will briefly introduce the method by following chapter 6.9 of @Gibbon2022. Essentially, these codes solve the self-consistent Vlasov-Maxwell equations (@Vlasov-eq + Maxwell). Solving this system numerically for real particles is not feasible, and because of this, we are reducing the dynamics of real particles to $N_("mp")$ #emph("macroparticles"). This approximation is valid because our system exhibits collective behavior. Each macro-particle can be thought of as a "brick" of the distribution function (see @vlasov-bricks):
+In this section, we will briefly introduce the method by following chapter 6.9 of @Gibbon2022. Essentially, these codes solve the self-consistent Vlasov-Maxwell equations (@Vlasov-eq + Maxwell). Solving this system numerically for real particles is not feasible, and because of this, we are reducing the dynamics of real particles to $N_("mp")$ #emph("macroparticles"). This approximation is valid because our system exhibits collective behavior. Each macro-particle can be thought of as a "brick" of the distribution function (see @vlasov-bricks), or a collection of physical particles:
 
 $ f (vb(r), vb(p), t) := sum_i^(N_"mp") S_i (vb(r) - vb(r)_i (t)) delta (vb(p)- vb(p)_i (t)). $ <discrete-dist-function>
 
@@ -452,3 +452,16 @@ Now, we can introduce the basic PIC loop (see @pic_step) as follows: starting fr
   image("figures/pic_step.png", width: 58%),
   caption: [Schematic ilsutration of the PIC step. With #text(red)[red] there are quantities on the grid and with #text(blue)[blue] quantities on the position of macroparticles. Adapted from section 6.9 @Gibbon2022]
 ) <pic_step>
+
+In our study, we are using FBPIC @Lehe2016 code #footnote([Link to the code repository: https://github.com/fbpic/fbpic]) to simulate LWFA. Instead of using the 3D cartesian geometry, the code exploits the cylindrical symmetry of the problem by using a #strong("cylindrical grid") for the fields (see @fbpic_geometry). We can expand any field $F(vb(r))$ in cylindrical modes as follow:
+
+$ F(vb(r)) = \u{211C} (sum_(m=0)^oo f_m (r, z) e^(-i m theta)). $
+
+The higher $m$, the higher fidelity structures we can capture. For example, to describe an idealized wakefield that is independent of $theta$, $m=0$ is sufficient.
+
+#figure(
+  image("figures/fbpic_geometry.png"),
+  caption: [A set of 2D radial grids used in FBPIC. Each 2D radial grid represents and azimuthal mode labeled by an integer $m$. From the #link("https://fbpic.github.io/overview/pic_algorithm.html#the-distinctive-features-of-fbpic")[#underline("documentation")] of the code]
+) <fbpic_geometry>
+
+Another advantage of FBPIC is that it performs the field solve in #strong("spectral space"). Fields are computed in the spectral domain at each timestep and then back-transformed to real space. These advantages speed up computations significantly.
