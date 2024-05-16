@@ -250,7 +250,7 @@ In the next sections, we will define plasma and how we can describe it. Then, we
 
 The most accurate and feasible description of plasma dynamics is captured by kinetic theory, which describes the evolution of #emph("distribution function") $f_s (vb(r), vb(p), t)$ in the phase space. The distribution function shows the density of particles of species $s$ in the voxel centered at point $(vb(r), vb(p))$ in phase space at time $t$. Physical observables can be obtained by integrating moments of $f_s$. For example, if we integrate this object over momentum coordinate, we can obtain the average density for each species $n_s (vb(r), t)$ and mean velocity $vb(u)_s (vb(r), t)$:
 
-#grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ n_s (vb(r), t) = integral f_s dd(vb(p)^3) $), $ vb(u)_s (vb(r), t) = 1/n_s integral vb(v) f_s dd(vb(p)^3) $)
+#grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ n_s (vb(r), t) = integral f_s dd(vb(p)^3) $), [$ vb(u)_s (vb(r), t) = 1/n_s integral vb(v) f_s dd(vb(p)^3) $ <currents>])
 
 For a collisionless #footnote([If we want to include collisions in our model, we are inserting a #emph("collision integral") in the RHS of @Vlasov-eq]) plasma, the continuity equation in phase space is:
 
@@ -258,7 +258,7 @@ $ pdv(f_s, t) + vb(v) dprod grad_(vb(r)) f_s + q_s (vb(E) + vb(v) cprod vb(B)) d
 
 where $vb(v) = vb(p)/(m_s gamma_s) = (c vb(p))/sqrt(m_s^2 c^2 + vb(p)^2)$ is the velocity of particles in relativistic regime. The above equation is known as the Vlasov equation. Together with the Maxwell equations, it forms a #emph("self-consistent") system of equations that describes plasma dynamics. Where sources are given by:
 
-#grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ rho = sum_s q_s n_s $), $ vb(j) = sum_s q_s n_s vb(u)_s $)
+#grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ rho = sum_s q_s n_s $), [$ vb(j) = sum_s q_s n_s vb(u)_s $ <sources>])
 
 Where $q_s$ is the charge of species $s$. However, the Vlasov-Maxwell system is impossible to solve analytically except for a limited number of simple systems. In our case, we will employ a simpler model derived from kinetic theory (see section 2.2.2 @Macchi2013), the so-called #emph("fluid model") of plasma. this model assumes that each species with density $n_s$ and velocity $vb(u)_s$ behaves in a fluid-like manner. We will consider ion fluid stationary, and for the electrons we have:
 
@@ -381,7 +381,7 @@ As a consequence, the EM fields are overestimated. One can substitute @EM_bubble
 
 #grid(columns: (1fr, 1fr), math.equation(block: true, numbering: none, $ F_perp = -(m_e omega_p^2) / 2 r  $), math.equation(block:true, $ F_parallel = -(m_e omega_p^2) / 2 xi $))
 
-We assumed that $v_z >> v_perp$ and $v_z slash c tilde.eq 1$. Transverse focusing of the electrons happens over the whole bubble, while defocusing occurs only on-axis density peak. For $xi in (0, r_b slash 2)$ electrons are decelerating. The distance, relative to the lab frame, over which electrons must propagate before they reach the middle of the bubble is named #emph("dephasing length") $:= L_d >> r_b$
+We assumed that $v_z >> v_perp$ and $v_z slash c tilde.eq 1$. Transverse focusing of the electrons happens over the whole bubble, while defocusing occurs only on-axis density peak. For $xi in (0, r_b slash 2)$ electrons are decelerating. The distance, relative to the lab frame, over which electrons must propagate before they reach the middle of the bubble is named #emph("dephasing length") $:= L_d >> r_b$. This, with the pump depletion, are the limiting factors in the acceleration process. 
 
 = Betatron Radiation
 
@@ -418,3 +418,37 @@ For a real bunch, electrons do not have the same energy and momentum. The parame
 $ epsilon_a = sqrt(<Delta a^2> <Delta p^2 >- <Delta a Delta p_a>^2)/(m_e c), $
 
 ,where $Delta psi := psi - <psi>$ and $a in {x, y, z}$.
+
+= Coumputational methods
+
+In this chapter we are going to describe the main computaional tools in this study. We will start by introducing the PIC method and the particular implementation in FBPIC. Then we will discuss codes that are estimating the betatron radiation: the Synchrad code and the FBPIC implementaion that computes it on the fly. For the Byesian Optimization we will use Optimas.
+
+== Particle-in-Cell codes
+
+The Particle-in-Cell method (PIC) is the most widely used numerical approach to simulating laser-plasma phenomena because of its conceptual simplicity (the implementation is quite cumbersome) and its ability to capture the detailed spectra of accelerated particles. 
+
+In this section, we will briefly introduce the method by following chapter 6.9 of @Gibbon2022. Essentially, these codes solve the self-consistent Vlasov-Maxwell equations (@Vlasov-eq + Maxwell). Solving this system numerically for real particles is not feasible, and because of this, we are reducing the dynamics of real particles to $N_("mp")$ #emph("macroparticles"). This approximation is valid because our system exhibits collective behavior. Each macro-particle can be thought of as a "brick" of the distribution function (see @vlasov-bricks):
+
+$ f (vb(r), vb(p), t) := sum_i^(N_"mp") S_i (vb(r) - vb(r)_i (t)) delta (vb(p)- vb(p)_i (t)). $ <discrete-dist-function>
+
+#figure(
+  image("figures/vlasov-bricks.png", width:85%),
+  caption: [Schematic representation of the #text(rgb("#00cc9a"))[distribution function] (a) and shattering of this function into numerical macroparticles (b). From @Pukhov2015],
+) <vlasov-bricks>
+
+$S_i (vb(r) - vb(r)_i (t))$ is the effective shape of the macroparticles, usually it is a Gaussian cenetered around $vb(r)_i$. By substituting @discrete-dist-function into @Vlasov-eq and first integrating over momentum and then for the position, the equations of motion for macroparticles are obtained:
+
+$ dv(vb(p)_i, t) &= q_i/m_i (vb(E) + vb(v)_i cprod vb(B)) \
+  dv(vb(r)_i, t) &= vb(p)_i / (gamma_i m_i), " " i=1, ..., N_("mp") $
+
+Gathering the positions and velocities onto a grid, one can obtain the density and current needed to integrate Maxwell equations:
+
+$ rho(vb(r)) &= sum_j q_j S (vb(r) - vb(r)_j) \
+  vb(j)(vb(r)) &= sum_j q_j vb(v)_j S(vb(r) - vb(r)_j), " " j=1, ..., N_("cells"). $ <PIC-EM-sources>
+
+Now, we can introduce the basic PIC loop (see @pic_step) as follows: starting from the initial positions and velocities of macroparticles, we can compute the EM sources with @PIC-EM-sources. With the computed sources, we integrate Maxwell equations to advance the EM fields. Now, we are interpolating new fields to the location of macroparticles and pushing them.
+
+#figure(
+  image("figures/pic_step.png", width: 58%),
+  caption: [Schematic ilsutration of the PIC step. With #text(red)[red] there are quantities on the grid and with #text(blue)[blue] quantities on the position of macroparticles. Adapted from section 6.9 @Gibbon2022]
+) <pic_step>
