@@ -421,13 +421,13 @@ $ epsilon_a = sqrt(<Delta a^2> <Delta p^2 >- <Delta a Delta p_a>^2)/(m_e c), $
 
 = Coumputational methods
 
-In this chapter we are going to describe the main computaional tools in this study. We will start by introducing the PIC method and the particular implementation in FBPIC. Then we will discuss codes that are estimating the betatron radiation: the Synchrad code and the FBPIC implementaion that computes it on the fly. For the Byesian Optimization we will use Optimas.
+In this chapter we are going to describe the main computaional tools used in this study. We will start by introducing the PIC method and the particular implementation in FBPIC. Then we will discuss codes that are estimating the betatron radiation: the Synchrad code and the FBPIC implementaion that computes it on the fly. For the Byesian Optimization we will use Optimas.
 
 == Particle-in-Cell codes
 
 The Particle-in-Cell method (PIC) is the most widely used numerical approach to simulating laser-plasma phenomena because of its conceptual simplicity (the implementation is quite cumbersome) and its ability to capture the detailed spectra of accelerated particles. 
 
-In this section, we will briefly introduce the method by following chapter 6.9 of @Gibbon2022. Essentially, these codes solve the self-consistent Vlasov-Maxwell equations (@Vlasov-eq + Maxwell). Solving this system numerically for real particles is not feasible, and because of this, we are reducing the dynamics of real particles to $N_("mp")$ #emph("macroparticles"). This approximation is valid because our system exhibits collective behavior. Each macro-particle can be thought of as a "brick" of the distribution function (see @vlasov-bricks), or a collection of physical particles:
+In this section, we will briefly introduce the method by following chapter 6.9 of @Gibbon2022. Essentially, these codes solve the self-consistent Vlasov-Maxwell equations (@Vlasov-eq + Maxwell). Solving this system numerically for real particles is not feasible, and because of this, we are reducing the dynamics of real particles to $N_("mp")$ #emph("macroparticles"). The main factor that allows us to make this approximation is that our system exhibits collective behavior. Each macro-particle can be thought of as a "brick" of the distribution function (see @vlasov-bricks), or a collection of physical particles:
 
 $ f (vb(r), vb(p), t) := sum_i^(N_"mp") S_i (vb(r) - vb(r)_i (t)) delta (vb(p)- vb(p)_i (t)). $ <discrete-dist-function>
 
@@ -446,14 +446,14 @@ Gathering the positions and velocities onto a grid, one can obtain the density a
 $ rho(vb(r)) &= sum_j q_j S (vb(r) - vb(r)_j) \
   vb(j)(vb(r)) &= sum_j q_j vb(v)_j S(vb(r) - vb(r)_j), " " j=1, ..., N_("cells"). $ <PIC-EM-sources>
 
-Now, we can introduce the basic PIC loop (see @pic_step) as follows: starting from the initial positions and velocities of macroparticles, we can compute the EM sources with @PIC-EM-sources. With the computed sources, we integrate Maxwell equations to advance the EM fields. Now, we are interpolating new fields to the location of macroparticles and pushing them.
+Now, we can introduce the basic PIC loop (see @pic_step) as follows: starting from the initial positions and velocities of macroparticles, we can compute the EM sources with @PIC-EM-sources. With the computed sources, we integrate Maxwell equations to advance the EM fields. Now, we are interpolating new fields to the location of macroparticles and pushing them with new fields.
 
 #figure(
   image("figures/pic_step.png", width: 58%),
   caption: [Schematic ilsutration of the PIC step. With #text(red)[red] there are quantities on the grid and with #text(blue)[blue] quantities on the position of macroparticles. Adapted from section 6.9 @Gibbon2022]
 ) <pic_step>
 
-In our study, we are using FBPIC @Lehe2016 code #footnote([Link to the code repository: https://github.com/fbpic/fbpic]) to simulate LWFA. Instead of using the 3D cartesian geometry, the code exploits the cylindrical symmetry of the problem by using a #strong("cylindrical grid") for the fields (see @fbpic_geometry). We can expand any field $F(vb(r))$ in cylindrical modes as follow:
+In our study, we are using #link("https://github.com/fbpic/fbpic")[#underline("FBPIC")] @Lehe2016 code to simulate LWFA. Instead of using the 3D cartesian geometry, the code exploits the cylindrical symmetry of the problem by using a #strong("cylindrical grid") for the fields (see @fbpic_geometry). We can expand any field $F(vb(r))$ in cylindrical modes as follow:
 
 $ F(vb(r)) = \u{211C} (sum_(m=0)^oo f_m (r, z) e^(-i m theta)). $
 
@@ -465,3 +465,52 @@ The higher $m$, the higher fidelity structures we can capture. For example, to d
 ) <fbpic_geometry>
 
 Another advantage of FBPIC is that it performs the field solve in #strong("spectral space"). Fields are computed in the spectral domain at each timestep and then back-transformed to real space. These advantages speed up computations significantly.
+
+== Estimating betatron radiation
+
+The most straightforward approach to calculating the betatron radiation is explicitly calculating the emitted radiation of each electron using @dW_dwdOmgega and then summing up the contribution of each electron. Of course, this approach is the most obvious, but it is also the most computationally demanding, especially when dealing with many macro-particles. This approach is implemented in #link("https://github.com/hightower8083/synchrad/tree/dev")[#underline("Synchrad")] code. Another nice feature of this code is that it can calculate the emitted radiation in the #emph("near-field") approximation. However, we will limit our analysis to the far-field approximation in this study.
+
+The second approach to calculate the betatron radiation is using the fact that the accelerated electrons from LWFA are relativistic and oscillate strongly, thus being in the strong relativistic regime. At the moment of writing this thesis, an experimental feature is available as a pull request #footnote([This implementation and Synchrad were developed by the same author #link("https://orcid.org/0000-0003-0313-4496")[#underline("Igor A Andriyash")].]) (PR) to the dev branch of FBPIC repository which exploits this regime to calculate the emitted radiation on the fly (not post-processed as in the case of Synchrad). Here, we will briefly mention the algorithm; for details, check the  #link("https://github.com/fbpic/fbpic/pull/655")[#underline([PR])] directly.
+
+At each simulation timestep $Delta t$, a particle emits energy into a small solid angle along its propagation direction $vb(u) slash abs(vb(u))$. $vb(u)$ is the electron's velocity normalized to the speed of light $c$. The #strong("dimensionless spectral density") is calculated at each timestep:
+
+$ dv(cal(W), hbar omega) = (P_("rad") Delta t)/(hbar omega_c) S(omega/omega_c), $
+
+where $P_("rad")$ is the power radiated by an relativistic electron given by Larmor formula (see chapter 14.2 of @Jackson1998-cw):
+
+$ P_("rad") = (e^2 gamma^6)/(6 pi epsilon_0 c) (dot(vb(beta))^2 - (vb(beta) cprod dot(vb(beta)))^2), $
+
+$S(x)$ is the spectral profile:
+
+$ S(x) = (9 sqrt(3))/(8 pi) x integral_x^oo K_(5 slash 3) (xi) dd(xi) $
+
+and $K$ is modified Bessel function of  $2^("nd")$ "kind". Critical frequency is calcuated from curvature of the trajectory $rho$ as follow:
+
+$ omega_c = 3/2 gamma^3 rho = 3/2 gamma^3 sqrt(dot(vb(beta))^2 - (vb(beta) dprod dot(vb(beta)))^2 slash vb(beta)^2) / vb(beta)^2. $
+
+$gamma := sqrt(1 + vb(u)^2)$ and $vb(beta) := vb(u) slash gamma$. Motion quantities are evolving due to EM fields as follow:
+
+$ diff_t vb(u) &= - e/(m c) (vb(E) + c vb(beta) cprod vb(B)) \
+  diff_t gamma &= -e/(m c) vb(beta) dprod vb(E) \
+  diff_t vb(beta) &= 1/gamma (diff_t vb(u) - vb(beta) diff_t gamma). $
+
+To account for the angular spread of emission, the random $delta theta_i tilde cal(N) (0, 2^(-3/2) gamma^(-1))$ is added to the emission direction for $i in {x, y}$. The deposition grid $(theta_x, theta_y)$ is perpendicular to the propagation axis $z$ (see @fbpic_synchrotron_scheme) The algorithm of the calculations is:
+
+#algorithm(
+  caption: [Estimation of betatron radiation in FBPIC],
+  pseudocode(
+    [Get $gamma$, $theta_i = arctan(u_i/u_z) + delta theta_i$ for $i= x, y$],
+    [Discard non-relativistic particles $gamma < gamma_"cutoff"$ and those outside of selected $(theta_x, theta_y)$],
+    [Calculate $P_"rad"$ and $omega_c$ from motion quantities.],
+    [Discard low $omega_c$ (chosen empirically $omega_c < 4 Delta omega$)],
+    [Calculate $dv(cal(W), hbar omega)$ on the given $hbar omega$ axis.],
+    [Depose $dd(cal(W), 2) / (dd(Omega) dd(hbar omega))$ onto $(theta_x, theta_y)$ grid. $dd(Omega) = Delta theta_x Delta theta_y$]
+  )
+)
+
+Algorithm outputs #link("https://www.openpmd.org/#/start")[#underline(`openPMD`)] "radiation" record which is a 3D array. One must remember that while the output from Synchrad is also a 3D array, the geometry is different. In Synchrad, the angular components of the grid are polar and azimuthal angles $(theta, phi)$. Also, the $hbar omega$ axis in FBPIC is in Joule, while in Synchrad, the $omega$ axis is dimensionless.
+
+#figure(
+  image("figures/fbpic_synchrotron_scheme.png", width: 80%),
+  caption: [The emission cone with opening \[red\] in the far-field caused by a wiggling electron \[red dashed line\]. Not that angles are small enough such that small angle approximation holds.]
+) <fbpic_synchrotron_scheme>
