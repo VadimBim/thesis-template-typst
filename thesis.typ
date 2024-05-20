@@ -508,7 +508,7 @@ To account for the angular spread of emission, the random $delta theta_i tilde c
   )
 )
 
-Algorithm outputs #link("https://www.openpmd.org/#/start")[#underline(`openPMD`)] "radiation" record which is a 3D array. One must remember that while the output from Synchrad is also a 3D array, the geometry is different. In Synchrad, the angular components of the grid are polar and azimuthal angles $(theta, phi)$. Also, the $hbar omega$ axis in FBPIC is in Joule, while in Synchrad, the $omega$ axis is dimensionless.
+Algorithm outputs `openPMD` @openPMDstandard "radiation" record which is a 3D array. One must remember that while the output from Synchrad is also a 3D array, the geometry is different. In Synchrad, the angular components of the grid are polar and azimuthal angles $(theta, phi)$. Also, the $hbar omega$ axis in FBPIC is in Joule, while in Synchrad, the $omega$ axis is dimensionless.
 
 #figure(
   image("figures/fbpic_synchrotron_scheme.png", width: 80%),
