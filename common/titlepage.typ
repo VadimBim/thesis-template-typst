@@ -65,7 +65,7 @@ v(10mm)
       columns: 2,
       gutter: 1em,
       strong("Supervisor: "), supervisor,
-      strong("Advisors: "), advisors.join(", "),
+      strong("Faculty supervisor: "), advisors.join(", "),
     )
   )
 
