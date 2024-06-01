@@ -20,15 +20,14 @@
   )
 
   
-  // --- Abstract (DE) ---
+  // --- Abstract ---
   v(1fr)
   align(center, text(font: body-font, 1em, weight: "semibold", "Abstract"))
   
   text[
-    Note:
-    1. *paragraph:* What is the motivation of your thesis? Why is it interesting from a scientific point of view? Which main problem do you like to solve?
-    2. *paragraph:* What is the purpose of the document? What is the main content, the main contribution?
-    3. *paragraph:* What is your methodology? How do you proceed?
+    Laser–plasma interactions are of interest both for fundamental physics research (for example, reaching extreme electric fields to study QED phenomena) and as emerging technologies for industrial applications. In recent years, data-driven methods have proved to be efficient tools for exploring laser-plasma physics. 
+    
+    In this study, we applied a Bayesian machine-learning-based optimization algorithm to optimize the X-ray radiation obtained when a short pulse intense laser interacts with an underdense plasma. Computational simulations were carried out using Particle-in-Cell FBPIC code and the optimization library Optimas. Our studies showed that Bayesian Optimization could significantly reduce the number of iterations needed to find a promising physical scenario by tuning the relevant laser plasma input parameters. Future work can be done on incorporating physics knowledge into optimization scheme to reduce further the number of interations.
   ]
   
   v(1fr)
