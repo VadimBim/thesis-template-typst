@@ -34,12 +34,12 @@ align(center, image("../figures/eli_ifin_logo.jpeg", width: 85%))
 
 v(10mm)
 
-  align(center, text(font: sans-font, 1.5em, weight: 100, degree + "’s Thesis in " + program))
+  align(center, text(font: sans-font, 1.0em, weight: 100, degree + "’s Thesis in " + program))
 
   v(3mm)
   
   line(length: 100%)
-  smallcaps()[#align(center, text(font: sans-font, 1.5em, weight: 700, title))]
+  smallcaps()[#align(center, text(font: sans-font, 1.3em, weight: 700, title))]
   line(length: 100%)
 
 
