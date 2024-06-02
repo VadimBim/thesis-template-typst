@@ -514,3 +514,9 @@ Algorithm outputs `openPMD` @openPMDstandard "radiation" record which is a 3D ar
   image("figures/fbpic_synchrotron_scheme.png", width: 80%),
   caption: [The emission cone with opening \[red\] in the far-field caused by a wiggling electron \[red dashed line\]. Not that angles are small enough such that small angle approximation holds.]
 ) <fbpic_synchrotron_scheme>
+
+= Results
+
+= Conclusions
+
+This study successfully demonstrated the application of Bayesian optimization to enhance the betatron radiation from accelerated electrons obtained in a LWFA scenario. The optimal parameters identified led to a significant increase in the total number of radiated photons, validating the effectiveness of the optimization approach. It is important to note that simulations overestimate the quality of radiation. Also, one must remember that simulations may only partially capture some physical phenomena in real-world experiments. Additionally, the optimization was conducted within a specific range of parameters, and broader exploration may yield further improvements. Future work could extend on exploring a wider parameter space, using #emph("Sparse axis-aligned subspaces") @Eriksson2021.  
