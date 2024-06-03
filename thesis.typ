@@ -37,6 +37,12 @@
   author: author,
 )
 
+= Introduction
+
+Particle accelerators play a crucial role in both the discovery of fundamental physics and industrial applications such as medical imaging and cancer treatment. Plasma-based accelerators (PBA) @Malka2016 are an alternative to conventional accelerators, and they promise to be more compact and less expensive to run. A laser-wakefield accelerator is a special kind of (PBA) where a high-intensity short-pulse laser acts as a driver for the underlying acceleration process. In recent years, due to technological advancements, laser-plasma physics became easier to inspect, which caused the generation of a large amount of data. Thus, data-driven and machine-learning methods became more widely used in this field @DoppReview2022. A data-driven optimization (namely Bayesian Optimization) of a laser wakefield accelerator was performed on a $100 "MeV"$-scale accelerator, proving the efficiency of this method @Shalloo2020 . After this, more detailed studies of this approach were investigated using simulations @Dolier2022 @Ferran-etal2022 @Irshad2022 and experiments @Jalas2021.
+
+In this study, we investigate the performance of Bayesian Optimization on optimizing the quality of betatron radiation obtained from LWFA accelerated electrons. We start with describing the main components of Bayesian Optimization in @chapter-bo. Then, we briefly explain the physics of LWFA, focusing on the bubble regime @chapter-LWFA. An overview of PIC codes and tools used to compute the betatron radiation from the FBPIC code are explained in @chapter-comp-methods. Finally, we end this thesis by listing the results and conclusions in the last two chapters.
+
 = Bayesian Optimization <chapter-bo>
 
 #emph("Bayesian Optimization") (BO) is a class of machine-learning-based algorithms that are designed to optimize expensive, black-box functions $f: A arrow.r RR$ (from this point forward, we will refer to these functions as #emph("objective functions")). Usually, these algorithms are efficient when the objective has the follwing properties @Frazier2018-dq:
@@ -219,7 +225,7 @@ where $vb(X) = [vb(x)_1, ... , vb(x)_q]$ is discretized input space and $vb(xi)_
   caption: [3 Monte Carlo realizations $vb(xi)_i$, represented by dotted lines, given #text(rgb("#99C1F1"))[observed data]. #text(red)[Red] horizontal lines represents argument of the maximum value of improvement for a monte carlo sample]
 )
 
-= Laser Wakefield Acceleration (LWFA)
+= Laser Wakefield Acceleration (LWFA) <chapter-LWFA>
 
 LWFA, for the first time proposed by Tajima and Dawson in 1979 @Tajima1979, is a promising technique for obtaining high-energy electron bunches on acceleration distances much smaller compared to the conventional accelerators (see @RF_vs_plasmcavity). The main idea is to use high electric fields obtained when an ultra-short, high-power laser pulse goes through an #emph("underdense") (more details in the following sections) plasma. Through the effect of the #emph("ponderomotive force"), electrons are expelled, while ions that are much heavier than electrons ($m_i >> m_e$) can be considered immobile. This charge imbalance creates a longitudinal plasma wave that follows the driver (laser). In the bubble-like structure behind the driver, electrons can be injected using different methods (self-injection, optical injection, ionization injection, etc.), each having its own advantages and disadvantages.
 
@@ -419,7 +425,7 @@ $ epsilon_a = sqrt(<Delta a^2> <Delta p^2 >- <Delta a Delta p_a>^2)/(m_e c), $
 
 ,where $Delta psi := psi - <psi>$ and $a in {x, y, z}$.
 
-= Coumputational methods
+= Coumputational methods <chapter-comp-methods>
 
 In this chapter we are going to describe the main computaional tools used in this study. We will start by introducing the PIC method and the particular implementation in FBPIC. Then we will discuss codes that are estimating the betatron radiation: the Synchrad code and the FBPIC implementaion that computes it on the fly. For the Byesian Optimization we will use Optimas.
 
